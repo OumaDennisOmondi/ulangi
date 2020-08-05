@@ -5,9 +5,10 @@
  * See LICENSE or go to https://www.gnu.org/licenses/gpl-3.0.txt
  */
 
+import { ObservableScreen } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { WelcomeScreenIds } from '../../constants/ids/WelcomeScreenIds';
 import { WelcomeScreenDelegate } from '../../delegates/welcome/WelcomeScreenDelegate';
@@ -15,16 +16,21 @@ import { ss } from '../../utils/responsive';
 import { Logo } from '../auth/Logo';
 import { SubmitButton } from '../auth/SubmitButton';
 import { DefaultText } from '../common/DefaultText';
+import { Screen } from '../common/Screen';
 
 export interface WelcomeScreenProps {
   screenDelegate: WelcomeScreenDelegate;
+  observableScreen: ObservableScreen;
 }
 
 @observer
 export class WelcomeScreen extends React.Component<WelcomeScreenProps> {
   public render(): React.ReactElement<any> {
     return (
-      <SafeAreaView style={styles.screen}>
+      <Screen
+        style={styles.screen}
+        observableScreen={this.props.observableScreen}
+        useSafeAreaView={true}>
         <View style={styles.logo_container}>
           <Logo />
         </View>
@@ -46,7 +52,7 @@ export class WelcomeScreen extends React.Component<WelcomeScreenProps> {
           textStyle={styles.no_text}
           onSubmit={this.props.screenDelegate.navigateToSignInScreen}
         />
-      </SafeAreaView>
+      </Screen>
     );
   }
 }

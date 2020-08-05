@@ -8,6 +8,7 @@
 import { Theme } from '@ulangi/ulangi-common/enums';
 import {
   ObservableNetworkStore,
+  ObservableScreen,
   ObservableSyncStore,
   ObservableThemeStore,
 } from '@ulangi/ulangi-observable';
@@ -26,6 +27,7 @@ import { env } from '../../constants/env';
 import { SynchronizerScreenIds } from '../../constants/ids/SynchronizerScreenIds';
 import { SynchronizerScreenDelegate } from '../../delegates/sync/SynchronizerScreenDelegate';
 import { DefaultText } from '../common/DefaultText';
+import { Screen } from '../common/Screen';
 import { SectionGroup } from '../section/SectionGroup';
 import { SectionRow } from '../section/SectionRow';
 import {
@@ -35,6 +37,7 @@ import {
 } from './SynchronizerScreen.styles';
 
 export interface SynchronizerScreenProps {
+  observableScreen: ObservableScreen;
   themeStore: ObservableThemeStore;
   networkStore: ObservableNetworkStore;
   syncStore: ObservableSyncStore;
@@ -53,7 +56,11 @@ export class SynchronizerScreen extends React.Component<
 
   public render(): React.ReactElement<any> {
     return (
-      <View style={this.styles.screen} testID={SynchronizerScreenIds.SCREEN}>
+      <Screen
+        style={this.styles.screen}
+        testID={SynchronizerScreenIds.SCREEN}
+        observableScreen={this.props.observableScreen}
+        useSafeAreaView={true}>
         <SectionGroup theme={this.props.themeStore.theme} header="SYNC STATE">
           <SectionRow
             theme={this.props.themeStore.theme}
@@ -61,7 +68,7 @@ export class SynchronizerScreen extends React.Component<
             description={this.renderDescription()}
           />
         </SectionGroup>
-      </View>
+      </Screen>
     );
   }
 

@@ -12,6 +12,7 @@ import { DataSharingScreenDelegate } from '../../delegates/data-sharing/DataShar
 import { FullRoundedButtonStyle } from '../../styles/FullRoundedButtonStyle';
 import { DefaultButton } from '../common/DefaultButton';
 import { DefaultText } from '../common/DefaultText';
+import { Screen } from '../common/Screen';
 import {
   DataSharingScreenStyles,
   darkStyles,
@@ -32,49 +33,53 @@ export class DataSharingScreen extends React.Component<DataSharingScreenProps> {
   }
   public render(): React.ReactElement<any> {
     return (
-      <ScrollView
+      <Screen
         testID={DataSharingScreenIds.SCREEN}
-        style={this.styles.screen}>
-        <DefaultText style={this.styles.title}>
-          Help us to improve Ulangi by sharing your data with us.
-        </DefaultText>
-        <DefaultText style={this.styles.paragraph}>
-          When you opt-in data sharing,{' '}
-        </DefaultText>
-        <DefaultText style={this.styles.paragraph}>
-          - in case of errors, we collect crash reports which include logs,
-          stack traces and navigation history. This information help us to
-          discover bugs, to prioritize them and to fix them easier.
-        </DefaultText>
-        <DefaultText style={this.styles.paragraph}>
-          - in order to improve user experience, we collect your events and
-          actions. This collected data is used to analyze user behaviors through
-          third party products. requests.
-        </DefaultText>
-
-        {this.props.observableScreen.optedIn === true ? (
-          <DefaultText style={this.styles.paragraph}>
-            You already opted-in.
+        style={this.styles.screen}
+        useSafeAreaView={true}
+        observableScreen={this.props.observableScreen}>
+        <ScrollView>
+          <DefaultText style={this.styles.title}>
+            Help us to improve Ulangi by sharing your data with us.
           </DefaultText>
-        ) : null}
-        <View style={this.styles.button_container}>
-          <DefaultButton
-            text={
-              this.props.observableScreen.optedIn === true
-                ? 'Opt-out data sharing'
-                : 'Opt-in data sharing'
-            }
-            styles={FullRoundedButtonStyle.getFullBackgroundStyles(
-              ButtonSize.LARGE,
-              this.props.observableScreen.optedIn === true
-                ? 'orangered'
-                : config.styles.primaryColor,
-              '#fff',
-            )}
-            onPress={this.props.screenDelegate.toggle}
-          />
-        </View>
-      </ScrollView>
+          <DefaultText style={this.styles.paragraph}>
+            When you opt-in data sharing,{' '}
+          </DefaultText>
+          <DefaultText style={this.styles.paragraph}>
+            - in case of errors, we collect crash reports which include logs,
+            stack traces and navigation history. This information help us to
+            discover bugs, to prioritize them and to fix them easier.
+          </DefaultText>
+          <DefaultText style={this.styles.paragraph}>
+            - in order to improve user experience, we collect your events and
+            actions. This collected data is used to analyze user behaviors
+            through third party products. requests.
+          </DefaultText>
+
+          {this.props.observableScreen.optedIn === true ? (
+            <DefaultText style={this.styles.paragraph}>
+              You already opted-in.
+            </DefaultText>
+          ) : null}
+          <View style={this.styles.button_container}>
+            <DefaultButton
+              text={
+                this.props.observableScreen.optedIn === true
+                  ? 'Opt-out data sharing'
+                  : 'Opt-in data sharing'
+              }
+              styles={FullRoundedButtonStyle.getFullBackgroundStyles(
+                ButtonSize.LARGE,
+                this.props.observableScreen.optedIn === true
+                  ? 'orangered'
+                  : config.styles.primaryColor,
+                '#fff',
+              )}
+              onPress={this.props.screenDelegate.toggle}
+            />
+          </View>
+        </ScrollView>
+      </Screen>
     );
   }
 }

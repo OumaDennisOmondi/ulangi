@@ -5,16 +5,14 @@
  * See LICENSE or go to https://www.gnu.org/licenses/gpl-3.0.txt
  */
 
-import {
-  ObservableAtomPlayScreen,
-  ObservableDimensions,
-} from '@ulangi/ulangi-observable';
+import { ObservableAtomPlayScreen } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { AtomPlayScreenIds } from '../../constants/ids/AtomPlayScreenIds';
 import { AtomPlayScreenDelegate } from '../../delegates/atom/AtomPlayScreenDelegate';
+import { Screen } from '../common/Screen';
 import { AtomArcs } from './AtomArcs';
 import { AtomOrigin } from './AtomOrigin';
 import { AtomParticles } from './AtomParticles';
@@ -24,7 +22,6 @@ import { AtomTopBar } from './AtomTopBar';
 
 export interface AtomPlayScreenProps {
   observableScreen: ObservableAtomPlayScreen;
-  observableDimensions: ObservableDimensions;
   screenDelegate: AtomPlayScreenDelegate;
 }
 
@@ -32,21 +29,25 @@ export interface AtomPlayScreenProps {
 export class AtomPlayScreen extends React.Component<AtomPlayScreenProps> {
   public render(): React.ReactElement<any> {
     return (
-      <SafeAreaView style={styles.screen} testID={AtomPlayScreenIds.SCREEN}>
+      <Screen
+        style={styles.screen}
+        testID={AtomPlayScreenIds.SCREEN}
+        useSafeAreaView={true}
+        observableScreen={this.props.observableScreen}>
         <View style={styles.container}>
           {this.props.observableScreen.shells.map(
             (shell): React.ReactElement<any> => {
               return (
                 <AtomShell
                   key={shell.shellType}
-                  observableDimensions={this.props.observableDimensions}
+                  screenLayout={this.props.observableScreen.screenLayout}
                   shell={shell}
                 />
               );
             },
           )}
           <AtomArcs
-            observableDimensions={this.props.observableDimensions}
+            screenLayout={this.props.observableScreen.screenLayout}
             arcs={this.props.observableScreen.arcs}
           />
           <AtomParticles
@@ -72,7 +73,7 @@ export class AtomPlayScreen extends React.Component<AtomPlayScreenProps> {
           />
           <AtomQuestion question={this.props.observableScreen.question} />
         </View>
-      </SafeAreaView>
+      </Screen>
     );
   }
 }

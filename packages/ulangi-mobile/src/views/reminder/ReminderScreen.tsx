@@ -14,13 +14,14 @@ import {
 import { observer } from 'mobx-react';
 import * as moment from 'moment';
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 
 import { ReminderScreenIds } from '../../constants/ids/ReminderScreenIds';
 import { ReminderScreenDelegate } from '../../delegates/reminder/ReminderScreenDelegate';
 import { FullRoundedButtonStyle } from '../../styles/FullRoundedButtonStyle';
 import { DefaultButton } from '../common/DefaultButton';
+import { Screen } from '../common/Screen';
 import { SectionGroup } from '../section/SectionGroup';
 import { SectionRow } from '../section/SectionRow';
 
@@ -35,7 +36,11 @@ export interface ReminderScreenProps {
 export class ReminderScreen extends React.Component<ReminderScreenProps> {
   public render(): React.ReactElement<any> {
     return (
-      <View style={styles.screen} testID={ReminderScreenIds.SCREEN}>
+      <Screen
+        style={styles.screen}
+        testID={ReminderScreenIds.SCREEN}
+        observableScreen={this.props.observableScreen}
+        useSafeAreaView={true}>
         {this.renderSection()}
         <DateTimePicker
           titleIOS="Pick a time"
@@ -49,7 +54,7 @@ export class ReminderScreen extends React.Component<ReminderScreenProps> {
           onCancel={this.props.screenDelegate.handleTimeCanceled}
           isDarkModeEnabled={this.props.themeStore.systemMode === 'dark'}
         />
-      </View>
+      </Screen>
     );
   }
 

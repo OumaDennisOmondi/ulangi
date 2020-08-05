@@ -6,14 +6,16 @@
  */
 
 import {
-  ObservableDimensions,
   ObservableLightBox,
+  ObservableScreen,
   ObservableThemeStore,
 } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
+import { StyleSheet } from 'react-native';
 
 import { LevelBreakdownScreenDelegate } from '../../delegates/level/LevelBreakdownScreenDelegate';
+import { Screen } from '../common/Screen';
 import { LightBoxContainerWithTitle } from '../light-box/LightBoxContainerWithTitle';
 import {
   lightBoxContainerWithTitleDarkStyles,
@@ -24,7 +26,7 @@ import { LevelBreakdown } from './LevelBreakdown';
 export interface LevelBreakdownScreenProps {
   themeStore: ObservableThemeStore;
   observableLightBox: ObservableLightBox;
-  observableDimensions: ObservableDimensions;
+  observableScreen: ObservableScreen;
   levelCounts: {
     readonly totalCount: number;
     readonly level0Count: number;
@@ -42,21 +44,32 @@ export class LevelBreakdownScreen extends React.Component<
 > {
   public render(): React.ReactElement<any> {
     return (
-      <LightBoxContainerWithTitle
-        theme={this.props.themeStore.theme}
-        observableLightBox={this.props.observableLightBox}
-        observableDimensions={this.props.observableDimensions}
-        dismissLightBox={this.props.screenDelegate.dismissLightBox}
-        styles={{
-          light: lightBoxContainerWithTitleLightStyles,
-          dark: lightBoxContainerWithTitleDarkStyles,
-        }}
-        title="Level Breakdown">
-        <LevelBreakdown
+      <Screen
+        useSafeAreaView={false}
+        observableScreen={this.props.observableScreen}
+        style={styles.screen}>
+        <LightBoxContainerWithTitle
           theme={this.props.themeStore.theme}
-          levelCounts={this.props.levelCounts}
-        />
-      </LightBoxContainerWithTitle>
+          observableLightBox={this.props.observableLightBox}
+          observableScreen={this.props.observableScreen}
+          dismissLightBox={this.props.screenDelegate.dismissLightBox}
+          styles={{
+            light: lightBoxContainerWithTitleLightStyles,
+            dark: lightBoxContainerWithTitleDarkStyles,
+          }}
+          title="Level Breakdown">
+          <LevelBreakdown
+            theme={this.props.themeStore.theme}
+            levelCounts={this.props.levelCounts}
+          />
+        </LightBoxContainerWithTitle>
+      </Screen>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+  },
+});

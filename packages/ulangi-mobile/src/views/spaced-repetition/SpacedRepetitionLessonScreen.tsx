@@ -7,17 +7,17 @@
 
 import { Theme } from '@ulangi/ulangi-common/enums';
 import {
-  ObservableDimensions,
   ObservableSetStore,
   ObservableSpacedRepetitionLessonScreen,
   ObservableThemeStore,
 } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
 
 import { SpacedRepetitionLessonScreenIds } from '../../constants/ids/SpacedRepetitionLessonScreenIds';
 import { SpacedRepetitionLessonScreenDelegate } from '../../delegates/spaced-repetition/SpacedRepetitionLessonScreenDelegate';
+import { Screen } from '../common/Screen';
 import { ReviewBottom } from './ReviewBottom';
 import { ReviewItem } from './ReviewItem';
 import { ReviewTop } from './ReviewTop';
@@ -31,7 +31,6 @@ import { SpacedRepetitionResult } from './SpacedRepetitionResult';
 export interface SpacedRepetitionLessonScreenProps {
   setStore: ObservableSetStore;
   themeStore: ObservableThemeStore;
-  observableDimensions: ObservableDimensions;
   observableScreen: ObservableSpacedRepetitionLessonScreen;
   screenDelegate: SpacedRepetitionLessonScreenDelegate;
 }
@@ -48,11 +47,13 @@ export class SpacedRepetitionLessonScreen extends React.Component<
 
   public render(): React.ReactElement<any> {
     return (
-      <SafeAreaView
+      <Screen
         style={this.styles.screen}
-        testID={SpacedRepetitionLessonScreenIds.SCREEN}>
+        testID={SpacedRepetitionLessonScreenIds.SCREEN}
+        observableScreen={this.props.observableScreen}
+        useSafeAreaView={true}>
         {this.renderContent()}
-      </SafeAreaView>
+      </Screen>
     );
   }
 
@@ -88,7 +89,7 @@ export class SpacedRepetitionLessonScreen extends React.Component<
                 this.props.observableScreen.reviewState.vocabulary.vocabularyId
               }
               theme={this.props.themeStore.theme}
-              observableDimensions={this.props.observableDimensions}
+              observableScreen={this.props.observableScreen}
               learningLanguageCode={currentSet.learningLanguageCode}
               reviewState={this.props.observableScreen.reviewState}
             />

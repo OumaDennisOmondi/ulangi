@@ -1,11 +1,12 @@
 import { ButtonSize, Theme } from '@ulangi/ulangi-common/enums';
 import {
   ObservableEventStore,
+  ObservableScreen,
   ObservableThemeStore,
 } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { SafeAreaView, View } from 'react-native';
+import { View } from 'react-native';
 
 import { config } from '../../constants/config';
 import { EventLogsScreenIds } from '../../constants/ids/EventLogsScreenIds';
@@ -13,6 +14,7 @@ import { EventLogsScreenDelegate } from '../../delegates/event/EventLogsScreenDe
 import { RoundedCornerButtonStyle } from '../../styles/RoundedCornerButtonStyle';
 import { DefaultButton } from '../common/DefaultButton';
 import { DefaultText } from '../common/DefaultText';
+import { Screen } from '../common/Screen';
 import {
   EventLogsScreenStyles,
   darkStyles,
@@ -22,6 +24,7 @@ import {
 export interface EventLogsScreenProps {
   themeStore: ObservableThemeStore;
   eventStore: ObservableEventStore;
+  observableScreen: ObservableScreen;
   screenDelegate: EventLogsScreenDelegate;
 }
 
@@ -35,9 +38,11 @@ export class EventLogsScreen extends React.Component<EventLogsScreenProps> {
 
   public render(): React.ReactElement<any> {
     return (
-      <SafeAreaView
+      <Screen
         testID={EventLogsScreenIds.SCREEN}
-        style={this.styles.screen}>
+        style={this.styles.screen}
+        observableScreen={this.props.observableScreen}
+        useSafeAreaView={true}>
         <View style={this.styles.paragraph}>
           <DefaultText style={this.styles.text}>
             The event logs are useful for debugging only. Currently, there are{' '}
@@ -62,7 +67,7 @@ export class EventLogsScreen extends React.Component<EventLogsScreenProps> {
             onPress={this.props.screenDelegate.sendLogsToDevelopers}
           />
         </View>
-      </SafeAreaView>
+      </Screen>
     );
   }
 }

@@ -12,12 +12,13 @@ import {
 } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { Platform, View } from 'react-native';
+import { Platform } from 'react-native';
 
 import { ThemeScreenIds } from '../../constants/ids/ThemeScreenIds';
 import { ThemeScreenDelegate } from '../../delegates/theme/ThemeScreenDelegate';
 import { FullRoundedButtonStyle } from '../../styles/FullRoundedButtonStyle';
 import { DefaultButton } from '../common/DefaultButton';
+import { Screen } from '../common/Screen';
 import { SectionGroup } from '../section/SectionGroup';
 import { SectionRow } from '../section/SectionRow';
 import {
@@ -42,9 +43,13 @@ export class ThemeScreen extends React.Component<ThemeScreenProps> {
 
   public render(): React.ReactElement<any> {
     return (
-      <View style={this.styles.screen} testID={ThemeScreenIds.SCREEN}>
+      <Screen
+        style={this.styles.screen}
+        testID={ThemeScreenIds.SCREEN}
+        observableScreen={this.props.observableScreen}
+        useSafeAreaView={true}>
         {this.renderSection()}
-      </View>
+      </Screen>
     );
   }
 

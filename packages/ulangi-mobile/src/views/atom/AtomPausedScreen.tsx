@@ -6,8 +6,8 @@
  */
 
 import {
-  ObservableDimensions,
   ObservableLightBox,
+  ObservableScreen,
 } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
@@ -17,12 +17,13 @@ import { Images } from '../../constants/Images';
 import { AtomPausedScreenIds } from '../../constants/ids/AtomPausedScreenIds';
 import { ls, ss } from '../../utils/responsive';
 import { DefaultText } from '../common/DefaultText';
+import { Screen } from '../common/Screen';
 import { LightBoxAnimatableView } from '../light-box/LightBoxAnimatableView';
 import { LightBoxTouchableBackground } from '../light-box/LightBoxTouchableBackground';
 
 export interface AtomPausedScreenProps {
   observableLightBox: ObservableLightBox;
-  observableDimensions: ObservableDimensions;
+  observableScreen: ObservableScreen;
   restart: () => void;
   quit: () => void;
   close: () => void;
@@ -40,45 +41,54 @@ export class AtomPausedScreen extends React.Component<AtomPausedScreenProps> {
 
   public render(): React.ReactElement<any> {
     return (
-      <LightBoxTouchableBackground
-        testID={AtomPausedScreenIds.SCREEN}
-        observableLightBox={this.props.observableLightBox}
-        observableDimensions={this.props.observableDimensions}
-        style={styles.light_box_container}
-        enabled={true}
-        activeOpacity={0.2}
-        onPress={(): void => this.close()}>
-        <LightBoxAnimatableView
-          testID={AtomPausedScreenIds.CONTAINER}
-          observableLightBox={this.props.observableLightBox}>
-          <View style={styles.inner_container}>
-            <View style={styles.title_container}>
-              <DefaultText style={styles.title_text}>PAUSED</DefaultText>
+      <Screen
+        useSafeAreaView={false}
+        observableScreen={this.props.observableScreen}
+        style={styles.screen}>
+        <LightBoxTouchableBackground
+          testID={AtomPausedScreenIds.SCREEN}
+          observableLightBox={this.props.observableLightBox}
+          observableScreen={this.props.observableScreen}
+          style={styles.light_box_container}
+          enabled={true}
+          activeOpacity={0.2}
+          onPress={(): void => this.close()}>
+          <LightBoxAnimatableView
+            testID={AtomPausedScreenIds.CONTAINER}
+            observableLightBox={this.props.observableLightBox}>
+            <View style={styles.inner_container}>
+              <View style={styles.title_container}>
+                <DefaultText style={styles.title_text}>PAUSED</DefaultText>
+              </View>
+              <View style={styles.content_container}>
+                <TouchableOpacity
+                  testID={AtomPausedScreenIds.QUIT_BTN}
+                  style={styles.button_touchable}
+                  onPress={this.props.quit}>
+                  <Image source={Images.CROSS_GREY_40X40} />
+                  <DefaultText style={styles.button_text}>Quit</DefaultText>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  testID={AtomPausedScreenIds.RESTART_BTN}
+                  style={styles.button_touchable}
+                  onPress={this.props.restart}>
+                  <Image source={Images.REFRESH_GREY_40X40} />
+                  <DefaultText style={styles.button_text}>Restart</DefaultText>
+                </TouchableOpacity>
+              </View>
             </View>
-            <View style={styles.content_container}>
-              <TouchableOpacity
-                testID={AtomPausedScreenIds.QUIT_BTN}
-                style={styles.button_touchable}
-                onPress={this.props.quit}>
-                <Image source={Images.CROSS_GREY_40X40} />
-                <DefaultText style={styles.button_text}>Quit</DefaultText>
-              </TouchableOpacity>
-              <TouchableOpacity
-                testID={AtomPausedScreenIds.RESTART_BTN}
-                style={styles.button_touchable}
-                onPress={this.props.restart}>
-                <Image source={Images.REFRESH_GREY_40X40} />
-                <DefaultText style={styles.button_text}>Restart</DefaultText>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </LightBoxAnimatableView>
-      </LightBoxTouchableBackground>
+          </LightBoxAnimatableView>
+        </LightBoxTouchableBackground>
+      </Screen>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+  },
+
   light_box_container: {
     justifyContent: 'center',
   },

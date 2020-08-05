@@ -67,6 +67,6 @@ export class TermsOfServiceScreenContainer extends Container {
   }
 
   public render(): React.ReactElement<any> {
-    return <TermsOfServiceScreen />;
+    return <TermsOfServiceScreen observableScreen={this.observableScreen} />;
   }
 }

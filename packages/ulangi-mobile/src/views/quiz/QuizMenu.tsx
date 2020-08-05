@@ -5,7 +5,7 @@
  * See LICENSE or go to https://www.gnu.org/licenses/gpl-3.0.txt
  */
 
-import { ObservableDimensions } from '@ulangi/ulangi-observable';
+import { ObservableScreenLayout } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -16,7 +16,7 @@ import { ls, ss, xls } from '../../utils/responsive';
 import { DefaultButton } from '../common/DefaultButton';
 
 export interface QuizMenuProps {
-  observableDimensions: ObservableDimensions;
+  screenLayout: ObservableScreenLayout;
   startWritingQuiz: () => void;
   startMultipleChoiceQuiz: () => void;
   showSettings: () => void;
@@ -30,7 +30,7 @@ export class QuizMenu extends React.Component<QuizMenuProps> {
         style={[
           styles.container,
           {
-            marginHorizontal: this.props.observableDimensions.isPortrait
+            marginHorizontal: this.props.screenLayout.isPortrait
               ? ls(16)
               : xls(16),
           },

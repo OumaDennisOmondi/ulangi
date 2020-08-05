@@ -6,8 +6,8 @@
  */
 
 import {
-  ObservableDimensions,
   ObservableLightBox,
+  ObservableScreen,
 } from '@ulangi/ulangi-observable';
 import { autorun } from 'mobx';
 import { observer } from 'mobx-react';
@@ -25,7 +25,7 @@ import { config } from '../../constants/config';
 
 export interface LightBoxTouchableBackgroundProps {
   observableLightBox: ObservableLightBox;
-  observableDimensions: ObservableDimensions;
+  observableScreen: ObservableScreen;
   testID?: string;
   style?: ViewStyle;
   enabled?: boolean;
@@ -180,8 +180,8 @@ export class LightBoxTouchableBackground extends React.Component<
           styles.light_box_container,
           this.props.style,
           {
-            width: this.props.observableDimensions.windowWidth,
-            height: this.props.observableDimensions.windowHeight,
+            width: this.props.observableScreen.screenLayout.width,
+            height: this.props.observableScreen.screenLayout.height,
           },
         ]}>
         <Animatable.View
@@ -194,8 +194,8 @@ export class LightBoxTouchableBackground extends React.Component<
           style={[
             styles.background,
             {
-              width: this.props.observableDimensions.windowWidth,
-              height: this.props.observableDimensions.windowHeight,
+              width: this.props.observableScreen.screenLayout.width,
+              height: this.props.observableScreen.screenLayout.height,
             },
           ]}
           {...panHandlers}

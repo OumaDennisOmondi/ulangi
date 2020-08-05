@@ -14,6 +14,7 @@ import { CreateFirstSetScreenIds } from '../../constants/ids/CreateFirstSetScree
 import { CreateFirstSetScreenDelegate } from '../../delegates/set/CreateFirstSetScreenDelegate';
 import { ss } from '../../utils/responsive';
 import { DefaultText } from '../common/DefaultText';
+import { Screen } from '../common/Screen';
 import { SimpleLanguagePicker } from './SimpleLanguagePicker';
 
 export interface CreateFirstSetScreenProps {
@@ -27,10 +28,14 @@ export class CreateFirstSetScreen extends React.Component<
 > {
   public render(): React.ReactElement<any> {
     return (
-      <View style={styles.screen} testID={CreateFirstSetScreenIds.SCREEN}>
+      <Screen
+        style={styles.screen}
+        testID={CreateFirstSetScreenIds.SCREEN}
+        observableScreen={this.props.observableScreen}
+        useSafeAreaView={false}>
         {this.renderTitle()}
         {this.renderPicker()}
-      </View>
+      </Screen>
     );
   }
 

@@ -6,8 +6,8 @@
  */
 
 import {
-  ObservableDimensions,
   ObservableLightBox,
+  ObservableScreen,
   ObservableThemeStore,
 } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
@@ -16,6 +16,7 @@ import { StyleSheet } from 'react-native';
 
 import { NavigatorDelegate } from '../../delegates/navigator/NavigatorDelegate';
 import { ss } from '../../utils/responsive';
+import { Screen } from '../common/Screen';
 import { LightBoxAnimatableView } from './LightBoxAnimatableView';
 import { LightBoxDialog } from './LightBoxDialog';
 import { LightBoxTouchableBackground } from './LightBoxTouchableBackground';
@@ -23,7 +24,7 @@ import { LightBoxTouchableBackground } from './LightBoxTouchableBackground';
 export interface LightBoxDialogScreenProps {
   themeStore: ObservableThemeStore;
   observableLightBox: ObservableLightBox;
-  observableDimensions: ObservableDimensions;
+  observableScreen: ObservableScreen;
   navigatorDelegate: NavigatorDelegate;
 }
 
@@ -49,23 +50,28 @@ export class LightBoxDialogScreen extends React.Component<
       return null;
     } else {
       return (
-        <LightBoxTouchableBackground
-          observableLightBox={this.props.observableLightBox}
-          observableDimensions={this.props.observableDimensions}
-          style={styles.light_box_container}
-          enabled={this.isBackgroundTouchable()}
-          onPress={(): void => this.onBackgroundPress()}
-          activeOpacity={0.2}>
-          <LightBoxAnimatableView
+        <Screen
+          useSafeAreaView={false}
+          observableScreen={this.props.observableScreen}
+          style={styles.screen}>
+          <LightBoxTouchableBackground
             observableLightBox={this.props.observableLightBox}
-            style={styles.inner_container}>
-            <LightBoxDialog
-              theme={this.props.themeStore.theme}
-              dialog={this.props.observableLightBox.dialog}
-              close={(): void => this.close()}
-            />
-          </LightBoxAnimatableView>
-        </LightBoxTouchableBackground>
+            observableScreen={this.props.observableScreen}
+            style={styles.light_box_container}
+            enabled={this.isBackgroundTouchable()}
+            onPress={(): void => this.onBackgroundPress()}
+            activeOpacity={0.2}>
+            <LightBoxAnimatableView
+              observableLightBox={this.props.observableLightBox}
+              style={styles.inner_container}>
+              <LightBoxDialog
+                theme={this.props.themeStore.theme}
+                dialog={this.props.observableLightBox.dialog}
+                close={(): void => this.close()}
+              />
+            </LightBoxAnimatableView>
+          </LightBoxTouchableBackground>
+        </Screen>
       );
     }
   }
@@ -94,6 +100,10 @@ export class LightBoxDialogScreen extends React.Component<
 }
 
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+  },
+
   light_box_container: {
     justifyContent: 'center',
     alignItems: 'center',

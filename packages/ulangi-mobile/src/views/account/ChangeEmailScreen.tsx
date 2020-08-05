@@ -18,6 +18,7 @@ import { config } from '../../constants/config';
 import { ChangeEmailScreenIds } from '../../constants/ids/ChangeEmailScreenIds';
 import { ChangeEmailForm } from '../../views/account/ChangeEmailForm';
 import { DefaultText } from '../common/DefaultText';
+import { Screen } from '../common/Screen';
 
 export interface ChangeEmailScreenProps {
   themeStore: ObservableThemeStore;
@@ -48,15 +49,20 @@ export class ChangeEmailScreen extends React.Component<ChangeEmailScreenProps> {
       return null;
     }
   }
+
   public render(): React.ReactElement<any> {
     return (
-      <View testID={ChangeEmailScreenIds.SCREEN} style={styles.screen}>
+      <Screen
+        testID={ChangeEmailScreenIds.SCREEN}
+        style={styles.screen}
+        observableScreen={this.props.observableScreen}
+        useSafeAreaView={true}>
         {this.renderGuestNote()}
         <ChangeEmailForm
           theme={this.props.themeStore.theme}
           observableScreen={this.props.observableScreen}
         />
-      </View>
+      </Screen>
     );
   }
 }

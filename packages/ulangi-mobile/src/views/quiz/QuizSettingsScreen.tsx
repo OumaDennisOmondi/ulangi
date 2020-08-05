@@ -20,6 +20,7 @@ import { QuizSettingsScreenIds } from '../../constants/ids/QuizSettingsScreenIds
 import { QuizSettingsScreenDelegate } from '../../delegates/quiz/QuizSettingsScreenDelegate';
 import { FullRoundedButtonStyle } from '../../styles/FullRoundedButtonStyle';
 import { DefaultButton } from '../common/DefaultButton';
+import { Screen } from '../common/Screen';
 import { SectionGroup } from '../section/SectionGroup';
 import { SectionRow } from '../section/SectionRow';
 import { QuizMultipleChoiceSettings } from './QuizMultipleChoiceSettings';
@@ -50,12 +51,15 @@ export class QuizSettingsScreen extends React.Component<
 
   public render(): React.ReactElement<any> {
     return (
-      <ScrollView
+      <Screen
         testID={QuizSettingsScreenIds.SCREEN}
         style={this.styles.screen}
-        contentContainerStyle={this.styles.content_container}>
-        {this.renderSections()}
-      </ScrollView>
+        observableScreen={this.props.observableScreen}
+        useSafeAreaView={true}>
+        <ScrollView contentContainerStyle={this.styles.content_container}>
+          {this.renderSections()}
+        </ScrollView>
+      </Screen>
     );
   }
 

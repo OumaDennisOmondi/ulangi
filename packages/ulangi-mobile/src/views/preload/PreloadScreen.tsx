@@ -8,10 +8,11 @@
 import { ObservablePreloadScreen } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 
 import { PreloadScreenIds } from '../../constants/ids/PreloadScreenIds';
 import { DefaultText } from '../common/DefaultText';
+import { Screen } from '../common/Screen';
 
 export interface PreloadScreenProps {
   observableScreen: ObservablePreloadScreen;
@@ -22,14 +23,18 @@ export interface PreloadScreenProps {
 export class PreloadScreen extends React.Component<PreloadScreenProps> {
   public render(): React.ReactElement<any> {
     return (
-      <View style={styles.screen} testID={PreloadScreenIds.SCREEN}>
+      <Screen
+        style={styles.screen}
+        testID={PreloadScreenIds.SCREEN}
+        useSafeAreaView={true}
+        observableScreen={this.props.observableScreen}>
         <ActivityIndicator color="white" />
         <DefaultText style={styles.message}>
           {this.props.shouldRenderMessage === true
             ? this.props.observableScreen.message
             : ''}
         </DefaultText>
-      </View>
+      </Screen>
     );
   }
 }

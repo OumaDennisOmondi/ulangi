@@ -8,7 +8,7 @@
 import { ButtonSize, Theme } from '@ulangi/ulangi-common/enums';
 import {
   ObservableCarouselMessage,
-  ObservableDimensions,
+  ObservableScreenLayout,
 } from '@ulangi/ulangi-observable';
 import { boundMethod } from 'autobind-decorator';
 import { IObservableArray, IObservableValue } from 'mobx';
@@ -25,7 +25,7 @@ import { DefaultText } from '../common/DefaultText';
 
 export interface MessageCarouselProps {
   theme: Theme;
-  observableDimensions: ObservableDimensions;
+  screenLayout: ObservableScreenLayout;
   messages: IObservableArray<ObservableCarouselMessage>;
   currentMessageIndex: IObservableValue<number>;
 }
@@ -33,9 +33,8 @@ export interface MessageCarouselProps {
 @observer
 export class MessageCarousel extends React.Component<MessageCarouselProps> {
   public render(): null | React.ReactElement<any> {
-    if (this.props.messages.length > 0) {
-      const windowWidth = this.props.observableDimensions.windowWidth;
-
+    const windowWidth = this.props.screenLayout.width;
+    if (this.props.messages.length > 0 && windowWidth) {
       return (
         <View>
           <Carousel
@@ -84,7 +83,7 @@ export class MessageCarousel extends React.Component<MessageCarouselProps> {
         style={[
           styles.item_container,
           {
-            width: this.props.observableDimensions.windowWidth,
+            width: this.props.screenLayout.width,
           },
         ]}>
         <View

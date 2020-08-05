@@ -8,7 +8,7 @@
 import { ButtonSize } from '@ulangi/ulangi-common/enums';
 import {
   ObservableCategoryListState,
-  ObservableDimensions,
+  ObservableScreenLayout,
 } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
@@ -21,7 +21,7 @@ import { DefaultButton } from '../common/DefaultButton';
 import { DefaultText } from '../common/DefaultText';
 
 export interface CategoryBulkActionBarProps {
-  observableDimensions: ObservableDimensions;
+  screenLayout: ObservableScreenLayout;
   categoryListState: ObservableCategoryListState;
   clearSelections: () => void;
   showCategoryBulkActionMenu: () => void;
@@ -37,7 +37,7 @@ export class CategoryBulkActionBar extends React.Component<
         style={[
           styles.container,
           {
-            width: this.props.observableDimensions.windowWidth,
+            width: this.props.screenLayout.width,
           },
         ]}>
         <DefaultText style={styles.selection_text} numberOfLines={1}>

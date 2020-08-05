@@ -6,7 +6,6 @@
  */
 
 import {
-  ObservableDimensions,
   ObservableSpacedRepetitionScreen,
   ObservableThemeStore,
 } from '@ulangi/ulangi-observable';
@@ -19,11 +18,11 @@ import { SpacedRepetitionScreenIds } from '../../constants/ids/SpacedRepetitionS
 import { SpacedRepetitionScreenDelegate } from '../../delegates/spaced-repetition/SpacedRepetitionScreenDelegate';
 import { ss } from '../../utils/responsive';
 import { SelectedCategories } from '../category/SelectedCategories';
+import { Screen } from '../common/Screen';
 import { SpacedRepetitionMenu } from './SpacedRepetitionMenu';
 import { SpacedRepetitionTitle } from './SpacedRepetitionTitle';
 
 export interface SpacedRepetitionScreenProps {
-  observableDimensions: ObservableDimensions;
   themeStore: ObservableThemeStore;
   observableScreen: ObservableSpacedRepetitionScreen;
   screenDelegate: SpacedRepetitionScreenDelegate;
@@ -35,7 +34,11 @@ export class SpacedRepetitionScreen extends React.Component<
 > {
   public render(): React.ReactElement<any> {
     return (
-      <View style={styles.screen} testID={SpacedRepetitionScreenIds.SCREEN}>
+      <Screen
+        style={styles.screen}
+        testID={SpacedRepetitionScreenIds.SCREEN}
+        useSafeAreaView={false}
+        observableScreen={this.props.observableScreen}>
         <View style={styles.container}>
           <View style={styles.middle_container}>
             <View style={styles.title_container}>
@@ -43,7 +46,7 @@ export class SpacedRepetitionScreen extends React.Component<
             </View>
             <View style={styles.menu_container}>
               <SpacedRepetitionMenu
-                observableDimensions={this.props.observableDimensions}
+                screenLayout={this.props.observableScreen.screenLayout}
                 startLesson={(): void =>
                   this.props.screenDelegate.startLesson(false)
                 }
@@ -64,7 +67,7 @@ export class SpacedRepetitionScreen extends React.Component<
             </View>
           </View>
         </View>
-      </View>
+      </Screen>
     );
   }
 }

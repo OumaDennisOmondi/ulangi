@@ -54,7 +54,6 @@ export class AtomScreenContainer extends Container<AtomScreenPassedProps> {
     return (
       <AtomScreen
         themeStore={this.props.rootStore.themeStore}
-        observableDimensions={this.props.observableDimensions}
         observableScreen={this.observableScreen}
         screenDelegate={this.screenDelegate}
       />

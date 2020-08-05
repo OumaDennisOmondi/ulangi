@@ -13,6 +13,7 @@ import { StyleSheet, View } from 'react-native';
 import { ForgotPasswordScreenIds } from '../../constants/ids/ForgotPasswordScreenIds';
 import { ForgotPasswordScreenDelegate } from '../../delegates/auth/ForgotPasswordScreenDelegate';
 import { DismissKeyboardView } from '../common/DismissKeyboardView';
+import { Screen } from '../common/Screen';
 import { ForgotPasswordForm } from './ForgotPasswordForm';
 import { Logo } from './Logo';
 
@@ -27,22 +28,26 @@ export class ForgotPasswordScreen extends React.Component<
 > {
   public render(): React.ReactElement<any> {
     return (
-      <DismissKeyboardView
+      <Screen
         style={styles.screen}
-        testID={ForgotPasswordScreenIds.SCREEN}>
-        <View style={styles.container}>
-          <View style={styles.logo_container}>
-            <Logo />
+        testID={ForgotPasswordScreenIds.SCREEN}
+        useSafeAreaView={true}
+        observableScreen={this.props.observableScreen}>
+        <DismissKeyboardView>
+          <View style={styles.container}>
+            <View style={styles.logo_container}>
+              <Logo />
+            </View>
+            <View style={styles.form_container}>
+              <ForgotPasswordForm
+                email={this.props.observableScreen.email}
+                submit={this.props.screenDelegate.requestResetPasswordEmail}
+                back={this.props.screenDelegate.back}
+              />
+            </View>
           </View>
-          <View style={styles.form_container}>
-            <ForgotPasswordForm
-              email={this.props.observableScreen.email}
-              submit={this.props.screenDelegate.requestResetPasswordEmail}
-              back={this.props.screenDelegate.back}
-            />
-          </View>
-        </View>
-      </DismissKeyboardView>
+        </DismissKeyboardView>
+      </Screen>
     );
   }
 }

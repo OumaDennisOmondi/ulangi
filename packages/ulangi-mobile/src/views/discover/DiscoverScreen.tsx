@@ -19,6 +19,7 @@ import { DiscoverScreenIds } from '../../constants/ids/DiscoverScreenIds';
 import { DiscoverScreenDelegate } from '../../delegates/discover/DiscoverScreenDelegate';
 import { DefaultText } from '../common/DefaultText';
 import { DismissKeyboardView } from '../common/DismissKeyboardView';
+import { Screen } from '../common/Screen';
 import { DiscoverCenterTitle } from './DiscoverCenterTitle';
 import { DiscoverNavBar } from './DiscoverNavBar';
 import {
@@ -56,21 +57,25 @@ export class DiscoverScreen extends React.Component<DiscoverScreenProps> {
 
   public render(): React.ReactElement<any> {
     return (
-      <DismissKeyboardView
+      <Screen
         style={this.styles.screen}
-        testID={DiscoverScreenIds.SCREEN}>
-        {this.isSupported() ? (
-          <React.Fragment>
-            {this.renderTopBar()}
-            {this.props.observableScreen.listType.get() === null
-              ? this.renderCenterTitle()
-              : this.renderList()}
-            {this.renderFloatingButton()}
-          </React.Fragment>
-        ) : (
-          this.renderNotSupported()
-        )}
-      </DismissKeyboardView>
+        testID={DiscoverScreenIds.SCREEN}
+        observableScreen={this.props.observableScreen}
+        useSafeAreaView={true}>
+        <DismissKeyboardView>
+          {this.isSupported() ? (
+            <React.Fragment>
+              {this.renderTopBar()}
+              {this.props.observableScreen.listType.get() === null
+                ? this.renderCenterTitle()
+                : this.renderList()}
+              {this.renderFloatingButton()}
+            </React.Fragment>
+          ) : (
+            this.renderNotSupported()
+          )}
+        </DismissKeyboardView>
+      </Screen>
     );
   }
 

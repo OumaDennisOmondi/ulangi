@@ -7,7 +7,6 @@
 
 import { Theme, VocabularyFilterType } from '@ulangi/ulangi-common/enums';
 import {
-  ObservableDimensions,
   ObservableManageScreen,
   ObservableSetStore,
   ObservableThemeStore,
@@ -21,6 +20,7 @@ import { ManageScreenDelegate } from '../../delegates/manage/ManageScreenDelegat
 import { ss } from '../../utils/responsive';
 import { CategoryBulkActionBar } from '../category/CategoryBulkActionBar';
 import { CategoryList } from '../category/CategoryList';
+import { Screen } from '../common/Screen';
 import { SyncingNotice } from '../sync/SyncingNotice';
 import { AddVocabularyFloatingButton } from '../vocabulary/AddVocabularyFloatingButton';
 import { NoVocabulary } from '../vocabulary/NoVocabulary';
@@ -35,7 +35,6 @@ import { QuickTutorialButton } from './QuickTutorialButton';
 export interface ManageScreenProps {
   setStore: ObservableSetStore;
   themeStore: ObservableThemeStore;
-  observableDimensions: ObservableDimensions;
   observableScreen: ObservableManageScreen;
   screenDelegate: ManageScreenDelegate;
 }
@@ -50,7 +49,11 @@ export class ManageScreen extends React.Component<ManageScreenProps> {
 
   public render(): React.ReactElement<any> {
     return (
-      <View testID={ManageScreenIds.SCREEN} style={this.styles.screen}>
+      <Screen
+        testID={ManageScreenIds.SCREEN}
+        style={this.styles.screen}
+        observableScreen={this.props.observableScreen}
+        useSafeAreaView={false}>
         <ManageBar
           theme={this.props.themeStore.theme}
           selectedSortType={this.props.observableScreen.selectedSortType}
@@ -64,7 +67,7 @@ export class ManageScreen extends React.Component<ManageScreenProps> {
         {this.renderBulkActionBar()}
         {this.renderSyncingNotice()}
         {this.renderFloatingActionButton()}
-      </View>
+      </Screen>
     );
   }
 
@@ -125,7 +128,7 @@ export class ManageScreen extends React.Component<ManageScreenProps> {
       return (
         <View style={this.styles.bulk_action_bar_container}>
           <CategoryBulkActionBar
-            observableDimensions={this.props.observableDimensions}
+            screenLayout={this.props.observableScreen.screenLayout}
             categoryListState={this.props.observableScreen.categoryListState}
             showCategoryBulkActionMenu={
               this.props.screenDelegate.showCategoryBulkActionMenu
@@ -160,7 +163,8 @@ export class ManageScreen extends React.Component<ManageScreenProps> {
           style={[
             this.styles.syncing_notice,
             {
-              left: (this.props.observableDimensions.windowWidth - ss(120)) / 2,
+              left:
+                (this.props.observableScreen.screenLayout.width - ss(120)) / 2,
               width: ss(120),
             },
           ]}>

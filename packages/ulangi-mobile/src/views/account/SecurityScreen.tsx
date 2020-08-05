@@ -6,8 +6,9 @@
  */
 
 import {
+  ObservableScreen,
   ObservableThemeStore,
-  ObservableUser,
+  ObservableUserStore,
 } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
@@ -15,12 +16,14 @@ import { StyleSheet, View } from 'react-native';
 
 import { SecurityScreenIds } from '../../constants/ids/SecurityScreenIds';
 import { SecurityScreenDelegate } from '../../delegates/account/SecurityScreenDelegate';
+import { Screen } from '../common/Screen';
 import { SectionGroup } from '../section/SectionGroup';
 import { SectionRow } from '../section/SectionRow';
 
 export interface SecurityScreenProps {
   themeStore: ObservableThemeStore;
-  currentUser: ObservableUser;
+  observableScreen: ObservableScreen;
+  userStore: ObservableUserStore;
   screenDelegate: SecurityScreenDelegate;
 }
 
@@ -28,9 +31,13 @@ export interface SecurityScreenProps {
 export class SecurityScreen extends React.Component<SecurityScreenProps> {
   public render(): React.ReactElement<any> {
     return (
-      <View style={styles.screen} testID={SecurityScreenIds.SCREEN}>
+      <Screen
+        style={styles.screen}
+        testID={SecurityScreenIds.SCREEN}
+        observableScreen={this.props.observableScreen}
+        useSafeAreaView={true}>
         <View style={styles.section_list}>{this.renderSections()}</View>
-      </View>
+      </Screen>
     );
   }
 
@@ -49,7 +56,7 @@ export class SecurityScreen extends React.Component<SecurityScreenProps> {
           theme={this.props.themeStore.theme}
           key="change-email"
           leftText="Change Email"
-          rightText={this.props.currentUser.email}
+          rightText={this.props.userStore.existingCurrentUser.email}
           showArrow={true}
           shrink="right"
           onPress={this.props.screenDelegate.navigateToChangeEmailScreen}

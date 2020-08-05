@@ -13,6 +13,7 @@ import { StyleSheet, View } from 'react-native';
 import { SignUpScreenIds } from '../../constants/ids/SignUpScreenIds';
 import { SignUpScreenDelegate } from '../../delegates/auth/SignUpScreenDelegate';
 import { DismissKeyboardView } from '../common/DismissKeyboardView';
+import { Screen } from '../common/Screen';
 import { SmartScrollView } from '../common/SmartScrollView';
 import { Logo } from './Logo';
 import { SignUpForm } from './SignUpForm';
@@ -26,33 +27,37 @@ export interface SignUpScreenProps {
 export class SignUpScreen extends React.Component<SignUpScreenProps> {
   public render(): React.ReactElement<any> {
     return (
-      <DismissKeyboardView
+      <Screen
         style={styles.screen}
-        testID={SignUpScreenIds.SCREEN}>
-        <View style={styles.container}>
-          <View style={styles.logo_container}>
-            <Logo />
+        testID={SignUpScreenIds.SCREEN}
+        useSafeAreaView={true}
+        observableScreen={this.props.observableScreen}>
+        <DismissKeyboardView>
+          <View style={styles.container}>
+            <View style={styles.logo_container}>
+              <Logo />
+            </View>
+            <SmartScrollView
+              style={styles.form_container}
+              keyboardAware={true}
+              keyboardShouldPersistTaps="handled">
+              <SignUpForm
+                email={this.props.observableScreen.email}
+                password={this.props.observableScreen.password}
+                confirmPassword={this.props.observableScreen.confirmPassword}
+                shouldFocusPassword={
+                  this.props.observableScreen.shouldFocusPassword
+                }
+                shouldFocusConfirmPassword={
+                  this.props.observableScreen.shouldFocusConfirmPassword
+                }
+                submit={this.props.screenDelegate.signUp}
+                back={this.props.screenDelegate.back}
+              />
+            </SmartScrollView>
           </View>
-          <SmartScrollView
-            style={styles.form_container}
-            keyboardAware={true}
-            keyboardShouldPersistTaps="handled">
-            <SignUpForm
-              email={this.props.observableScreen.email}
-              password={this.props.observableScreen.password}
-              confirmPassword={this.props.observableScreen.confirmPassword}
-              shouldFocusPassword={
-                this.props.observableScreen.shouldFocusPassword
-              }
-              shouldFocusConfirmPassword={
-                this.props.observableScreen.shouldFocusConfirmPassword
-              }
-              submit={this.props.screenDelegate.signUp}
-              back={this.props.screenDelegate.back}
-            />
-          </SmartScrollView>
-        </View>
-      </DismissKeyboardView>
+        </DismissKeyboardView>
+      </Screen>
     );
   }
 }

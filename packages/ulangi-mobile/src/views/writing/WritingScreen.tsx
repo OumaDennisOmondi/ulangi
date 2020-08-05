@@ -6,7 +6,6 @@
  */
 
 import {
-  ObservableDimensions,
   ObservableThemeStore,
   ObservableWritingScreen,
 } from '@ulangi/ulangi-observable';
@@ -17,11 +16,11 @@ import { StyleSheet, View } from 'react-native';
 import { WritingScreenIds } from '../../constants/ids/WritingScreenIds';
 import { WritingScreenDelegate } from '../../delegates/writing/WritingScreenDelegate';
 import { SelectedCategories } from '../category/SelectedCategories';
+import { Screen } from '../common/Screen';
 import { WritingMenu } from './WritingMenu';
 import { WritingTitle } from './WritingTitle';
 
 export interface WritingScreenProps {
-  observableDimensions: ObservableDimensions;
   themeStore: ObservableThemeStore;
   observableScreen: ObservableWritingScreen;
   screenDelegate: WritingScreenDelegate;
@@ -31,7 +30,11 @@ export interface WritingScreenProps {
 export class WritingScreen extends React.Component<WritingScreenProps> {
   public render(): React.ReactElement<any> {
     return (
-      <View style={styles.screen} testID={WritingScreenIds.SCREEN}>
+      <Screen
+        style={styles.screen}
+        useSafeAreaView={false}
+        testID={WritingScreenIds.SCREEN}
+        observableScreen={this.props.observableScreen}>
         <View style={styles.container}>
           <View style={styles.middle_container}>
             <View style={styles.title_container}>
@@ -39,7 +42,7 @@ export class WritingScreen extends React.Component<WritingScreenProps> {
             </View>
             <View style={styles.menu_container}>
               <WritingMenu
-                observableDimensions={this.props.observableDimensions}
+                screenLayout={this.props.observableScreen.screenLayout}
                 startLesson={(): void =>
                   this.props.screenDelegate.startLesson(false)
                 }
@@ -60,7 +63,7 @@ export class WritingScreen extends React.Component<WritingScreenProps> {
             </View>
           </View>
         </View>
-      </View>
+      </Screen>
     );
   }
 }

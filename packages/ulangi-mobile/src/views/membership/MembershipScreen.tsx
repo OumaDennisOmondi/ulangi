@@ -15,6 +15,7 @@ import { ScrollView, StyleSheet } from 'react-native';
 
 import { MembershipScreenIds } from '../../constants/ids/MembershipScreenIds';
 import { MembershipScreenDelegate } from '../../delegates/membership/MembershipScreenDelegate';
+import { Screen } from '../common/Screen';
 import { PremiumMembership } from './PremiumMembership';
 import { RegularMembership } from './RegularMembership';
 
@@ -29,23 +30,26 @@ export class MembershipScreen extends React.Component<MembershipScreenProps> {
   public render(): React.ReactElement<any> {
     const isPremium = this.props.userStore.existingCurrentUser.isPremium;
     return (
-      <ScrollView
-        style={styles.screen}
+      <Screen
         testID={MembershipScreenIds.SCREEN}
-        contentContainerStyle={styles.content_container}>
-        {isPremium === false ? (
-          <RegularMembership
-            showAdsDialog={this.props.screenDelegate.showAdsDialog}
+        style={styles.screen}
+        useSafeAreaView={true}
+        observableScreen={this.props.observableScreen}>
+        <ScrollView contentContainerStyle={styles.content_container}>
+          {isPremium === false ? (
+            <RegularMembership
+              showAdsDialog={this.props.screenDelegate.showAdsDialog}
+            />
+          ) : null}
+          <PremiumMembership
+            isPremium={isPremium}
+            upgradeButtonState={this.props.observableScreen.upgradeButtonState}
+            navigateToFeatureRequest={
+              this.props.screenDelegate.navigateToFeatureRequestScreen
+            }
           />
-        ) : null}
-        <PremiumMembership
-          isPremium={isPremium}
-          upgradeButtonState={this.props.observableScreen.upgradeButtonState}
-          navigateToFeatureRequest={
-            this.props.screenDelegate.navigateToFeatureRequestScreen
-          }
-        />
-      </ScrollView>
+        </ScrollView>
+      </Screen>
     );
   }
 }

@@ -12,10 +12,10 @@ import {
 } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { View } from 'react-native';
 
 import { PublicSetDetailScreenIds } from '../../constants/ids/PublicSetDetailScreenIds';
 import { PublicSetDetailScreenDelegate } from '../../delegates/discover/PublicSetDetailScreenDelegate';
+import { Screen } from '../common/Screen';
 import { PublicSetDetailHeader } from './PublicSetDetailHeader';
 import {
   PublicSetDetailScreenStyles,
@@ -42,7 +42,11 @@ export class PublicSetDetailScreen extends React.Component<
 
   public render(): React.ReactElement<any> {
     return (
-      <View style={this.styles.screen} testID={PublicSetDetailScreenIds.SCREEN}>
+      <Screen
+        style={this.styles.screen}
+        testID={PublicSetDetailScreenIds.SCREEN}
+        observableScreen={this.props.observableScreen}
+        useSafeAreaView={true}>
         <PublicSetDetailHeader
           theme={this.props.themeStore.theme}
           title={this.props.observableScreen.publicSet.title}
@@ -67,7 +71,7 @@ export class PublicSetDetailScreen extends React.Component<
           }
           openLink={this.props.screenDelegate.openLink}
         />
-      </View>
+      </Screen>
     );
   }
 }

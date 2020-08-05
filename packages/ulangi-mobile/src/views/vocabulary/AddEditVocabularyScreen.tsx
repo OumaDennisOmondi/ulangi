@@ -12,10 +12,11 @@ import {
 } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
 
 import { AddEditVocabularyScreenDelegate } from '../../delegates/vocabulary/AddEditVocabularyScreenDelegate';
 import { DismissKeyboardView } from '../common/DismissKeyboardView';
+import { Screen } from '../common/Screen';
 import { SmartScrollView } from '../common/SmartScrollView';
 import { VocabularyForm } from './VocabularyForm';
 import { VocabularyFormTopBar } from './VocabularyFormTopBar';
@@ -36,7 +37,11 @@ export class AddEditVocabularyScreen extends React.Component<
 > {
   public render(): React.ReactElement<any> {
     return (
-      <View style={styles.screen} testID={this.props.testID}>
+      <Screen
+        style={styles.screen}
+        testID={this.props.testID}
+        useSafeAreaView={true}
+        observableScreen={this.props.observableScreen}>
         <VocabularyFormTopBar
           theme={this.props.themeStore.theme}
           currentTab={this.props.observableScreen.currentTab}
@@ -44,7 +49,7 @@ export class AddEditVocabularyScreen extends React.Component<
         {this.props.observableScreen.currentTab.get() === 'Editor'
           ? this.renderEditor()
           : this.renderPreview()}
-      </View>
+      </Screen>
     );
   }
 

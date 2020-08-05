@@ -6,6 +6,8 @@
  */
 
 import { Options } from '@ulangi/react-native-navigation';
+import { ScreenName } from '@ulangi/ulangi-common/enums';
+import { ObservableScreen } from '@ulangi/ulangi-observable';
 import * as _ from 'lodash';
 import { observer } from 'mobx-react';
 import * as React from 'react';
@@ -31,6 +33,12 @@ export class AtomPausedScreenContainer extends Container<
 
   protected observableLightBox = this.props.observableLightBox;
 
+  protected observableScreen = new ObservableScreen(
+    this.props.componentId,
+    ScreenName.ATOM_PAUSED_SCREEN,
+    null,
+  );
+
   private screenFactory = new ScreenFactory(
     this.props,
     this.eventBus,
@@ -47,7 +55,7 @@ export class AtomPausedScreenContainer extends Container<
     return (
       <AtomPausedScreen
         observableLightBox={this.props.observableLightBox}
-        observableDimensions={this.props.observableDimensions}
+        observableScreen={this.observableScreen}
         restart={this.props.passedProps.restart}
         quit={this.props.passedProps.quit}
         close={(): void => this.navigatorDelegate.dismissLightBox()}

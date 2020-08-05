@@ -7,7 +7,7 @@
 
 import { Theme } from '@ulangi/ulangi-common/enums';
 import {
-  ObservableDimensions,
+  ObservableScreen,
   ObservableSetStore,
   ObservableThemeStore,
 } from '@ulangi/ulangi-observable';
@@ -18,6 +18,7 @@ import { TouchableOpacity, View } from 'react-native';
 import { LearnScreenIds } from '../../constants/ids/LearnScreenIds';
 import { LearnScreenDelegate } from '../../delegates/learn/LearnScreenDelegate';
 import { DefaultText } from '../common/DefaultText';
+import { Screen } from '../common/Screen';
 import { LearnList } from '../learn/LearnList';
 import {
   LearnScreenStyles,
@@ -26,7 +27,7 @@ import {
 } from './LearnScreen.style';
 
 export interface LearnScreenProps {
-  observableDimensions: ObservableDimensions;
+  observableScreen: ObservableScreen;
   setStore: ObservableSetStore;
   themeStore: ObservableThemeStore;
   screenDelegate: LearnScreenDelegate;
@@ -42,7 +43,11 @@ export class LearnScreen extends React.Component<LearnScreenProps> {
 
   public render(): React.ReactElement<any> {
     return (
-      <View style={this.styles.screen} testID={LearnScreenIds.SCREEN}>
+      <Screen
+        style={this.styles.screen}
+        testID={LearnScreenIds.SCREEN}
+        useSafeAreaView={false}
+        observableScreen={this.props.observableScreen}>
         <View style={this.styles.top_container}>
           <TouchableOpacity
             onPress={
@@ -57,7 +62,7 @@ export class LearnScreen extends React.Component<LearnScreenProps> {
         </View>
         <LearnList
           theme={this.props.themeStore.theme}
-          observableDimensions={this.props.observableDimensions}
+          screenLayout={this.props.observableScreen.screenLayout}
           featureSettings={this.props.screenDelegate.getCurrentFeatureSettings()}
           navigateToSpacedRepetitionScreen={
             this.props.screenDelegate.navigateToSpacedRepetitionScreen
@@ -71,7 +76,7 @@ export class LearnScreen extends React.Component<LearnScreenProps> {
           }
           navigateToAtomScreen={this.props.screenDelegate.navigateToAtomScreen}
         />
-      </View>
+      </Screen>
     );
   }
 }

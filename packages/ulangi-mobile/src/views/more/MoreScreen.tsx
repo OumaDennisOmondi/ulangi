@@ -8,7 +8,6 @@
 import { ButtonSize, Theme } from '@ulangi/ulangi-common/enums';
 import {
   ObservableAdStore,
-  ObservableDimensions,
   ObservableMoreScreen,
   ObservableNetworkStore,
   ObservableSyncStore,
@@ -29,6 +28,7 @@ import { FullRoundedButtonStyle } from '../../styles/FullRoundedButtonStyle';
 import { SectionGroup } from '../../views/section/SectionGroup';
 import { SectionRow } from '../../views/section/SectionRow';
 import { DefaultButton } from '../common/DefaultButton';
+import { Screen } from '../common/Screen';
 import { MessageCarousel } from './MessageCarousel';
 import {
   MoreScreenStyles,
@@ -46,7 +46,6 @@ export interface MoreScreenProps {
   networkStore: ObservableNetworkStore;
   syncStore: ObservableSyncStore;
   adStore: ObservableAdStore;
-  observableDimensions: ObservableDimensions;
   observableScreen: ObservableMoreScreen;
   screenDelegate: MoreScreenDelegate;
 }
@@ -61,13 +60,17 @@ export class MoreScreen extends React.Component<MoreScreenProps> {
 
   public render(): React.ReactElement<any> {
     return (
-      <View testID={MoreScreenIds.SCREEN} style={this.styles.screen}>
+      <Screen
+        testID={MoreScreenIds.SCREEN}
+        observableScreen={this.props.observableScreen}
+        useSafeAreaView={false}
+        style={this.styles.screen}>
         <ScrollView
           testID={MoreScreenIds.MORE_SCROLL_VIEW}
           style={this.styles.scroll_view_container}>
           <MessageCarousel
             theme={this.props.themeStore.theme}
-            observableDimensions={this.props.observableDimensions}
+            screenLayout={this.props.observableScreen.screenLayout}
             messages={this.props.observableScreen.messages}
             currentMessageIndex={
               this.props.observableScreen.currentMessageIndex
@@ -75,7 +78,7 @@ export class MoreScreen extends React.Component<MoreScreenProps> {
           />
           <View style={this.styles.section_list}>{this.renderSections()}</View>
         </ScrollView>
-      </View>
+      </Screen>
     );
   }
 
@@ -249,7 +252,7 @@ export class MoreScreen extends React.Component<MoreScreenProps> {
           rightText=""
           showArrow={true}
           onPress={this.props.screenDelegate.goToDictionaryFunctionsWebsite}
-          description="Use Google Sheets formulas to look up dictionary for thousand words with a single drag."
+          description="Extract dictionary data easily using Google Sheets formulas and import them to your favorite learning apps."
         />
       </SectionGroup>
     );

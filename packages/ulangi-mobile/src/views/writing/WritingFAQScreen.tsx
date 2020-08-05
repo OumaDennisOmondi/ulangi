@@ -6,13 +6,16 @@
  */
 
 import { Theme } from '@ulangi/ulangi-common/enums';
-import { ObservableThemeStore } from '@ulangi/ulangi-observable';
+import {
+  ObservableScreen,
+  ObservableThemeStore,
+} from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { View } from 'react-native';
 
 import { WritingFAQScreenIds } from '../../constants/ids/WritingFAQScreenIds';
 import { FAQList } from '../common/FAQList';
+import { Screen } from '../common/Screen';
 import {
   WritingFAQScreenStyles,
   darkStyles,
@@ -21,6 +24,7 @@ import {
 
 export interface WritingFAQScreenProps {
   themeStore: ObservableThemeStore;
+  observableScreen: ObservableScreen;
 }
 
 @observer
@@ -53,12 +57,16 @@ export class WritingFAQScreen extends React.Component<WritingFAQScreenProps> {
 
   public render(): React.ReactElement<any> {
     return (
-      <View style={this.styles.screen} testID={WritingFAQScreenIds.SCREEN}>
+      <Screen
+        style={this.styles.screen}
+        testID={WritingFAQScreenIds.SCREEN}
+        useSafeAreaView={true}
+        observableScreen={this.props.observableScreen}>
         <FAQList
           theme={this.props.themeStore.theme}
           sections={this.data.sections}
         />
-      </View>
+      </Screen>
     );
   }
 }

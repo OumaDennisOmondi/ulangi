@@ -6,7 +6,7 @@
  */
 
 import { Theme } from '@ulangi/ulangi-common/enums';
-import { ObservableDimensions } from '@ulangi/ulangi-observable';
+import { ObservableScreenLayout } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import AutoHeightWebView from 'react-native-autoheight-webview';
@@ -22,7 +22,7 @@ import jsEscapeStr = require('js-string-escape');
 
 export interface StrokeOrdersProps {
   theme: Theme;
-  observableDimensions: ObservableDimensions;
+  screenLayout: ObservableScreenLayout;
   words: string[];
   styles?: {
     light: StrokeOrdersStyles;
@@ -85,7 +85,7 @@ export class StrokeOrders extends React.Component<StrokeOrdersProps> {
         style={[
           this.styles.webview,
           {
-            width: this.props.observableDimensions.windowWidth - 16 * 2,
+            width: this.props.screenLayout.width - 16 * 2,
           },
         ]}
         customScript={injectedJavascript}

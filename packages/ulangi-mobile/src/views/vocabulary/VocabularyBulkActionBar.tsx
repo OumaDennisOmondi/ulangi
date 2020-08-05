@@ -7,12 +7,12 @@
 
 import { ButtonSize } from '@ulangi/ulangi-common/enums';
 import {
-  ObservableDimensions,
+  ObservableScreenLayout,
   ObservableVocabularyListState,
 } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { config } from '../../constants/config';
 import { VocabularyBulkActionBarIds } from '../../constants/ids/VocabularyBulkActionBarIds';
@@ -21,7 +21,7 @@ import { DefaultButton } from '../common/DefaultButton';
 import { DefaultText } from '../common/DefaultText';
 
 export interface VocabularyBulkActionBarProps {
-  observableDimensions: ObservableDimensions;
+  screenLayout: ObservableScreenLayout;
   vocabularyListState: ObservableVocabularyListState;
   clearSelections: () => void;
   showVocabularyBulkActionMenu: () => void;
@@ -33,11 +33,11 @@ export class VocabularyBulkActionBar extends React.Component<
 > {
   public render(): React.ReactElement<any> {
     return (
-      <SafeAreaView
+      <View
         style={[
           styles.container,
           {
-            width: this.props.observableDimensions.windowWidth,
+            width: this.props.screenLayout.width,
           },
         ]}>
         <DefaultText style={styles.selection_text} numberOfLines={1}>
@@ -72,7 +72,7 @@ export class VocabularyBulkActionBar extends React.Component<
             />
           </View>
         </View>
-      </SafeAreaView>
+      </View>
     );
   }
 }

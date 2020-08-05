@@ -15,6 +15,7 @@ import { AdScreenDelegate } from '../../delegates/ad/AdScreenDelegate';
 import { FullRoundedButtonStyle } from '../../styles/FullRoundedButtonStyle';
 import { DefaultButton } from '../common/DefaultButton';
 import { DefaultText } from '../common/DefaultText';
+import { Screen } from '../common/Screen';
 
 export interface AdScreenProps {
   observableScreen: ObservableAdScreen;
@@ -25,11 +26,14 @@ export interface AdScreenProps {
 export class AdScreen extends React.Component<AdScreenProps> {
   public render(): React.ReactElement<any> {
     return (
-      <View style={styles.screen}>
+      <Screen
+        style={styles.screen}
+        useSafeAreaView={true}
+        observableScreen={this.props.observableScreen}>
         {this.props.observableScreen.closable === true
           ? this.renderCloseButton()
           : this.renderLoading()}
-      </View>
+      </Screen>
     );
   }
 

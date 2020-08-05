@@ -7,8 +7,8 @@
 
 import { Theme } from '@ulangi/ulangi-common/enums';
 import {
-  ObservableDimensions,
   ObservableLightBox,
+  ObservableScreen,
 } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
@@ -27,7 +27,7 @@ export interface LightBoxContainerWithTitleProps {
   testID?: string;
   theme: Theme;
   observableLightBox: ObservableLightBox;
-  observableDimensions: ObservableDimensions;
+  observableScreen: ObservableScreen;
   dismissLightBox: () => void;
   title: string;
   styles?: {
@@ -51,7 +51,7 @@ export class LightBoxContainerWithTitle extends React.Component<
       <LightBoxTouchableBackground
         testID={this.props.testID}
         observableLightBox={this.props.observableLightBox}
-        observableDimensions={this.props.observableDimensions}
+        observableScreen={this.props.observableScreen}
         enabled={true}
         style={this.styles.light_box_container}
         onPress={this.props.dismissLightBox}

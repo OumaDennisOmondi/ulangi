@@ -12,12 +12,12 @@ import {
 } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { View } from 'react-native';
 
 import { AutoArchiveScreenIds } from '../../constants/ids/AutoArchiveScreenIds';
 import { AutoArchiveScreenDelegate } from '../../delegates/auto-archive/AutoArchiveScreenDelegate';
 import { FullRoundedButtonStyle } from '../../styles/FullRoundedButtonStyle';
 import { DefaultButton } from '../common/DefaultButton';
+import { Screen } from '../common/Screen';
 import { SectionGroup } from '../section/SectionGroup';
 import { SectionRow } from '../section/SectionRow';
 import {
@@ -42,10 +42,14 @@ export class AutoArchiveScreen extends React.Component<AutoArchiveScreenProps> {
 
   public render(): React.ReactElement<any> {
     return (
-      <View style={this.styles.screen} testID={AutoArchiveScreenIds.SCREEN}>
+      <Screen
+        style={this.styles.screen}
+        testID={AutoArchiveScreenIds.SCREEN}
+        observableScreen={this.props.observableScreen}
+        useSafeAreaView={true}>
         {this.renderToggleSection()}
         {this.renderConditionsSection()}
-      </View>
+      </Screen>
     );
   }
 

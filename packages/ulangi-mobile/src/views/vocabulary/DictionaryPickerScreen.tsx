@@ -8,7 +8,6 @@
 import { Theme } from '@ulangi/ulangi-common/enums';
 import {
   ObservableDictionaryPickerScreen,
-  ObservableDimensions,
   ObservableLightBox,
   ObservableSetStore,
   ObservableThemeStore,
@@ -21,6 +20,7 @@ import { DictionaryPickerScreenIds } from '../../constants/ids/DictionaryPickerS
 import { VocabularyFormIds } from '../../constants/ids/VocabularyFormIds';
 import { DictionaryPickerScreenDelegate } from '../../delegates/vocabulary/DictionaryPickerScreenDelegate';
 import { DefaultText } from '../common/DefaultText';
+import { Screen } from '../common/Screen';
 import { LightBoxAnimatableView } from '../light-box/LightBoxAnimatableView';
 import { LightBoxTouchableBackground } from '../light-box/LightBoxTouchableBackground';
 import { DictionaryPickerContent } from './DictionaryPickerContent';
@@ -32,7 +32,6 @@ import {
 
 export interface DictionaryPickerScreenProps {
   observableLightBox: ObservableLightBox;
-  observableDimensions: ObservableDimensions;
   observableScreen: ObservableDictionaryPickerScreen;
   themeStore: ObservableThemeStore;
   setStore: ObservableSetStore;
@@ -50,31 +49,36 @@ export class DictionaryPickerScreen extends React.Component<
   }
   public render(): React.ReactElement<any> {
     return (
-      <LightBoxTouchableBackground
-        testID={DictionaryPickerScreenIds.SCREEN}
-        observableLightBox={this.props.observableLightBox}
-        observableDimensions={this.props.observableDimensions}
-        style={this.styles.light_box_container}
-        enabled={true}
-        activeOpacity={0.2}
-        onPress={this.props.screenDelegate.close}>
-        <LightBoxAnimatableView
-          testID={DictionaryPickerScreenIds.CONTAINER}
-          observableLightBox={this.props.observableLightBox}>
-          <View style={this.styles.inner_container}>
-            {this.renderPickerHeader()}
-            <View
-              style={[
-                this.styles.picker_content_container,
-                {
-                  height: this.props.observableDimensions.windowHeight / 2,
-                },
-              ]}>
-              {this.renderPickerContent()}
+      <Screen
+        useSafeAreaView={false}
+        observableScreen={this.props.observableScreen}
+        style={this.styles.screen}>
+        <LightBoxTouchableBackground
+          testID={DictionaryPickerScreenIds.SCREEN}
+          observableLightBox={this.props.observableLightBox}
+          observableScreen={this.props.observableScreen}
+          style={this.styles.light_box_container}
+          enabled={true}
+          activeOpacity={0.2}
+          onPress={this.props.screenDelegate.close}>
+          <LightBoxAnimatableView
+            testID={DictionaryPickerScreenIds.CONTAINER}
+            observableLightBox={this.props.observableLightBox}>
+            <View style={this.styles.inner_container}>
+              {this.renderPickerHeader()}
+              <View
+                style={[
+                  this.styles.picker_content_container,
+                  {
+                    height: this.props.observableScreen.screenLayout.height / 2,
+                  },
+                ]}>
+                {this.renderPickerContent()}
+              </View>
             </View>
-          </View>
-        </LightBoxAnimatableView>
-      </LightBoxTouchableBackground>
+          </LightBoxAnimatableView>
+        </LightBoxTouchableBackground>
+      </Screen>
     );
   }
 

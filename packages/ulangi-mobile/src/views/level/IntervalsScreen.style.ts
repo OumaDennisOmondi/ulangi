@@ -12,6 +12,7 @@ import { config } from '../../constants/config';
 import { ss } from '../../utils/responsive';
 
 export interface IntervalsScreenStyles {
+  screen: ViewStyle;
   row: ViewStyle;
   row_left: ViewStyle;
   row_right: ViewStyle;
@@ -20,6 +21,10 @@ export interface IntervalsScreenStyles {
 }
 
 export const baseStyles: IntervalsScreenStyles = {
+  screen: {
+    flex: 1,
+  },
+
   row: {
     alignSelf: 'stretch',
     paddingHorizontal: ss(16),

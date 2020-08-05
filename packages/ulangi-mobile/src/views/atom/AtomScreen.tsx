@@ -8,17 +8,17 @@
 import { Theme } from '@ulangi/ulangi-common/enums';
 import {
   ObservableAtomScreen,
-  ObservableDimensions,
   ObservableThemeStore,
 } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { SafeAreaView, View } from 'react-native';
+import { View } from 'react-native';
 
 import { AtomScreenIds } from '../../constants/ids/AtomScreenIds';
 import { AtomScreenDelegate } from '../../delegates/atom/AtomScreenDelegate';
 import { SelectedCategories } from '../../views/category/SelectedCategories';
 import { DefaultText } from '../common/DefaultText';
+import { Screen } from '../common/Screen';
 import { AtomMenu } from './AtomMenu';
 import {
   AtomScreenStyles,
@@ -32,7 +32,6 @@ import { AtomTopBar } from './AtomTopBar';
 
 export interface AtomScreenProps {
   themeStore: ObservableThemeStore;
-  observableDimensions: ObservableDimensions;
   observableScreen: ObservableAtomScreen;
   screenDelegate: AtomScreenDelegate;
 }
@@ -47,7 +46,11 @@ export class AtomScreen extends React.Component<AtomScreenProps> {
 
   public render(): React.ReactElement<any> {
     return (
-      <SafeAreaView style={this.styles.screen} testID={AtomScreenIds.SCREEN}>
+      <Screen
+        style={this.styles.screen}
+        testID={AtomScreenIds.SCREEN}
+        useSafeAreaView={true}
+        observableScreen={this.props.observableScreen}>
         <View style={this.styles.top_bar_container}>
           <AtomTopBar
             iconTestID={AtomScreenIds.BACK_BTN}
@@ -61,7 +64,7 @@ export class AtomScreen extends React.Component<AtomScreenProps> {
           </View>
           <View style={this.styles.menu_container}>
             <AtomMenu
-              observableDimensions={this.props.observableDimensions}
+              screenLayout={this.props.observableScreen.screenLayout}
               start={this.props.screenDelegate.startGame}
               goToTutorial={this.props.screenDelegate.goToTutorial}
             />
@@ -88,7 +91,7 @@ export class AtomScreen extends React.Component<AtomScreenProps> {
             to practice.
           </DefaultText>
         </View>
-      </SafeAreaView>
+      </Screen>
     );
   }
 }

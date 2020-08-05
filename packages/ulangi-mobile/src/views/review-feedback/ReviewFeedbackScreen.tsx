@@ -12,10 +12,10 @@ import {
 } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { View } from 'react-native';
 
 import { ReviewFeedbackScreenIds } from '../../constants/ids/ReviewFeedbackScreenIds';
 import { ReviewFeedbackScreenDelegate } from '../../delegates/review-feedback/ReviewFeedbackScreenDelegate';
+import { Screen } from '../common/Screen';
 import { ReviewFeedbackList } from '../review-feedback/ReviewFeedbackList';
 import {
   ReviewFeedbackScreenStyles,
@@ -41,7 +41,11 @@ export class ReviewFeedbackScreen extends React.Component<
 
   public render(): React.ReactElement<any> {
     return (
-      <View style={this.styles.screen} testID={ReviewFeedbackScreenIds.SCREEN}>
+      <Screen
+        style={this.styles.screen}
+        testID={ReviewFeedbackScreenIds.SCREEN}
+        observableScreen={this.props.observableScreen}
+        useSafeAreaView={true}>
         <ReviewFeedbackList
           theme={this.props.themeStore.theme}
           vocabularyList={this.props.observableScreen.vocabularyList}
@@ -53,7 +57,7 @@ export class ReviewFeedbackScreen extends React.Component<
             this.props.screenDelegate.showFeedbackSelectionMenu(vocabularyId)
           }
         />
-      </View>
+      </Screen>
     );
   }
 }

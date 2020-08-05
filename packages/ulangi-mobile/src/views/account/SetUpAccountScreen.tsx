@@ -20,6 +20,7 @@ import { SetUpAccountScreenDelegate } from '../../delegates/account/SetUpAccount
 import { RoundedCornerButtonStyle } from '../../styles/RoundedCornerButtonStyle';
 import { DefaultButton } from '../common/DefaultButton';
 import { DefaultTextInput } from '../common/DefaultTextInput';
+import { Screen } from '../common/Screen';
 import { SmartScrollView } from '../common/SmartScrollView';
 import {
   SetUpAccountScreenStyles,
@@ -45,7 +46,11 @@ export class SetUpAccountScreen extends React.Component<
 
   public render(): React.ReactElement<any> {
     return (
-      <View style={this.styles.screen} testID={SetUpAccountScreenIds.SCREEN}>
+      <Screen
+        style={this.styles.screen}
+        testID={SetUpAccountScreenIds.SCREEN}
+        useSafeAreaView={true}
+        observableScreen={this.props.observableScreen}>
         <SmartScrollView
           style={this.styles.form}
           keyboardAware={true}
@@ -120,7 +125,7 @@ export class SetUpAccountScreen extends React.Component<
             />
           </View>
         </SmartScrollView>
-      </View>
+      </Screen>
     );
   }
 }

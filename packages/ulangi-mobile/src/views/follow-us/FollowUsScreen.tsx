@@ -6,7 +6,10 @@
  */
 
 import { Theme } from '@ulangi/ulangi-common/enums';
-import { ObservableThemeStore } from '@ulangi/ulangi-observable';
+import {
+  ObservableScreen,
+  ObservableThemeStore,
+} from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { View } from 'react-native';
@@ -14,6 +17,7 @@ import { View } from 'react-native';
 import { FollowUsScreenIds } from '../../constants/ids/FollowUsScreenIds';
 import { FollowUsScreenDelegate } from '../../delegates/follow-us/FollowUsScreenDelegate';
 import { DefaultText } from '../common/DefaultText';
+import { Screen } from '../common/Screen';
 import { SectionGroup } from '../section/SectionGroup';
 import { SectionRow } from '../section/SectionRow';
 import {
@@ -25,6 +29,7 @@ import {
 export interface FollowUsScreenProps {
   themeStore: ObservableThemeStore;
   screenDelegate: FollowUsScreenDelegate;
+  observableScreen: ObservableScreen;
 }
 
 @observer
@@ -36,7 +41,11 @@ export class FollowUsScreen extends React.Component<FollowUsScreenProps> {
   }
   public render(): React.ReactElement<any> {
     return (
-      <View style={this.styles.screen} testID={FollowUsScreenIds.SCREEN}>
+      <Screen
+        style={this.styles.screen}
+        testID={FollowUsScreenIds.SCREEN}
+        useSafeAreaView={true}
+        observableScreen={this.props.observableScreen}>
         <View style={this.styles.intro_container}>
           <DefaultText style={this.styles.intro_text}>
             Want to know what we are working on?
@@ -64,7 +73,7 @@ export class FollowUsScreen extends React.Component<FollowUsScreenProps> {
             />
           </SectionGroup>
         </View>
-      </View>
+      </Screen>
     );
   }
 }

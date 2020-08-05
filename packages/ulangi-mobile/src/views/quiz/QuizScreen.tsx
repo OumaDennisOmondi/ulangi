@@ -6,7 +6,6 @@
  */
 
 import {
-  ObservableDimensions,
   ObservableQuizScreen,
   ObservableThemeStore,
 } from '@ulangi/ulangi-observable';
@@ -16,12 +15,12 @@ import { StyleSheet, View } from 'react-native';
 import { QuizScreenIds } from '../../constants/ids/QuizScreenIds';
 import { QuizScreenDelegate } from '../../delegates/quiz/QuizScreenDelegate';
 import { SelectedCategories } from '../category/SelectedCategories';
+import { Screen } from '../common/Screen';
 import { QuizMenu } from './QuizMenu';
 import { QuizTitle } from './QuizTitle';
 
 export interface QuizScreenProps {
   themeStore: ObservableThemeStore;
-  observableDimensions: ObservableDimensions;
   observableScreen: ObservableQuizScreen;
   screenDelegate: QuizScreenDelegate;
 }
@@ -29,7 +28,11 @@ export interface QuizScreenProps {
 export class QuizScreen extends React.Component<QuizScreenProps> {
   public render(): React.ReactElement<any> {
     return (
-      <View style={styles.screen} testID={QuizScreenIds.SCREEN}>
+      <Screen
+        style={styles.screen}
+        testID={QuizScreenIds.SCREEN}
+        useSafeAreaView={true}
+        observableScreen={this.props.observableScreen}>
         <View style={styles.container}>
           <View style={styles.middle_container}>
             <View style={styles.title_container}>
@@ -37,7 +40,7 @@ export class QuizScreen extends React.Component<QuizScreenProps> {
             </View>
             <View style={styles.menu_container}>
               <QuizMenu
-                observableDimensions={this.props.observableDimensions}
+                screenLayout={this.props.observableScreen.screenLayout}
                 startWritingQuiz={this.props.screenDelegate.startWritingQuiz}
                 startMultipleChoiceQuiz={
                   this.props.screenDelegate.startMultipleChoiceQuiz
@@ -58,7 +61,7 @@ export class QuizScreen extends React.Component<QuizScreenProps> {
             </View>
           </View>
         </View>
-      </View>
+      </Screen>
     );
   }
 }

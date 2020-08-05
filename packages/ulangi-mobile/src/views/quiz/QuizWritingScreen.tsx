@@ -12,10 +12,10 @@ import {
 } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { View } from 'react-native';
 
 import { QuizWritingScreenIds } from '../../constants/ids/QuizWritingScreenIds';
 import { QuizWritingScreenDelegate } from '../../delegates/quiz/QuizWritingScreenDelegate';
+import { Screen } from '../common/Screen';
 import { SmartScrollView } from '../common/SmartScrollView';
 import { WritingForm } from '../writing/WritingForm';
 import { WritingFormTop } from '../writing/WritingFormTop';
@@ -42,7 +42,11 @@ export class QuizWritingScreen extends React.Component<QuizWritingScreenProps> {
 
   public render(): React.ReactElement<any> {
     return (
-      <View testID={QuizWritingScreenIds.SCREEN} style={this.styles.screen}>
+      <Screen
+        testID={QuizWritingScreenIds.SCREEN}
+        style={this.styles.screen}
+        observableScreen={this.props.observableScreen}
+        useSafeAreaView={true}>
         <SmartScrollView
           keyboardAware={true}
           keyboardShouldPersistTaps="handled">
@@ -75,7 +79,7 @@ export class QuizWritingScreen extends React.Component<QuizWritingScreenProps> {
             </React.Fragment>
           )}
         </SmartScrollView>
-      </View>
+      </Screen>
     );
   }
 }

@@ -13,11 +13,12 @@ import {
 import * as _ from 'lodash';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
 
 import { WritingLessonScreenIds } from '../../constants/ids/WritingLessonScreenIds';
 import { WritingLessonScreenDelegate } from '../../delegates/writing/WritingLessonScreenDelegate';
 import { DismissKeyboardView } from '../common/DismissKeyboardView';
+import { Screen } from '../common/Screen';
 import { SmartScrollView } from '../common/SmartScrollView';
 import { WritingForm } from './WritingForm';
 import { WritingFormBottom } from './WritingFormBottom';
@@ -47,11 +48,13 @@ export class WritingLessonScreen extends React.Component<
 
   public render(): React.ReactElement<any> {
     return (
-      <SafeAreaView
+      <Screen
         testID={WritingLessonScreenIds.SCREEN}
-        style={this.styles.screen}>
+        style={this.styles.screen}
+        useSafeAreaView={true}
+        observableScreen={this.props.observableScreen}>
         {this.renderContent()}
-      </SafeAreaView>
+      </Screen>
     );
   }
 

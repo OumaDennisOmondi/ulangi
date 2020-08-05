@@ -12,10 +12,11 @@ import {
 } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView } from 'react-native';
 
 import { QuizMultipleChoiceScreenIds } from '../../constants/ids/QuizMultipleChoiceScreenIds';
 import { QuizMultipleChoiceScreenDelegate } from '../../delegates/quiz/QuizMultipleChoiceScreenDelegate';
+import { Screen } from '../common/Screen';
 import { MultipleChoiceForm } from '../multiple-choice/MultipleChoiceForm';
 import { MultipleChoiceFormTop } from '../multiple-choice/MultipleChoiceFormTop';
 import { QuizMultipleChoiceResult } from './QuizMultipleChoiceResult';
@@ -43,9 +44,11 @@ export class QuizMultipleChoiceScreen extends React.Component<
 
   public render(): React.ReactElement<any> {
     return (
-      <View
+      <Screen
         testID={QuizMultipleChoiceScreenIds.SCREEN}
-        style={this.styles.screen}>
+        style={this.styles.screen}
+        observableScreen={this.props.observableScreen}
+        useSafeAreaView={true}>
         <ScrollView>
           {this.props.observableScreen.shouldShowResult.get() === true ? (
             <QuizMultipleChoiceResult
@@ -76,7 +79,7 @@ export class QuizMultipleChoiceScreen extends React.Component<
             </React.Fragment>
           )}
         </ScrollView>
-      </View>
+      </Screen>
     );
   }
 }

@@ -21,6 +21,7 @@ import { SpacedRepetitionSettingsScreenDelegate } from '../../delegates/spaced-r
 import { FullRoundedButtonStyle } from '../../styles/FullRoundedButtonStyle';
 import { DefaultButton } from '../common/DefaultButton';
 import { DefaultText } from '../common/DefaultText';
+import { Screen } from '../common/Screen';
 import { SectionGroup } from '../section/SectionGroup';
 import { SectionRow } from '../section/SectionRow';
 import {
@@ -49,12 +50,15 @@ export class SpacedRepetitionSettingsScreen extends React.Component<
 
   public render(): React.ReactElement<any> {
     return (
-      <ScrollView
+      <Screen
         style={this.styles.screen}
-        contentContainerStyle={this.styles.content_container}
+        observableScreen={this.props.observableScreen}
+        useSafeAreaView={true}
         testID={SpacedRepetitionSettingsScreenIds.SCREEN}>
-        {this.renderSections()}
-      </ScrollView>
+        <ScrollView contentContainerStyle={this.styles.content_container}>
+          {this.renderSections()}
+        </ScrollView>
+      </Screen>
     );
   }
 

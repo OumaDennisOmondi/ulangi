@@ -51,6 +51,11 @@ export class WelcomeScreenContainer extends Container {
   }
 
   public render(): React.ReactElement<any> {
-    return <WelcomeScreen screenDelegate={this.screenDelegate} />;
+    return (
+      <WelcomeScreen
+        screenDelegate={this.screenDelegate}
+        observableScreen={this.observableScreen}
+      />
+    );
   }
 }

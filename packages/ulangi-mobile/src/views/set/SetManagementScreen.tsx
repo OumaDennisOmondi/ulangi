@@ -12,10 +12,11 @@ import {
 } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { SetManagementScreenIds } from '../../constants/ids/SetManagementScreenIds';
 import { SetManagementScreenDelegate } from '../../delegates/set/SetManagementScreenDelegate';
+import { Screen } from '../common/Screen';
 import { SetList } from './SetList';
 import { SetManagementTopBar } from './SetManagementTopBar';
 
@@ -32,7 +33,11 @@ export class SetManagementScreen extends React.Component<
 > {
   public render(): React.ReactElement<any> {
     return (
-      <View style={styles.screen} testID={SetManagementScreenIds.SCREEN}>
+      <Screen
+        style={styles.screen}
+        testID={SetManagementScreenIds.SCREEN}
+        observableScreen={this.props.observableScreen}
+        useSafeAreaView={true}>
         <SetManagementTopBar
           theme={this.props.themeStore.theme}
           selectedSetStatus={this.props.observableScreen.selectedSetStatus}
@@ -47,7 +52,7 @@ export class SetManagementScreen extends React.Component<
           refresh={this.props.screenDelegate.refresh}
           showSetActionMenu={this.props.screenDelegate.showSetActionMenu}
         />
-      </View>
+      </Screen>
     );
   }
 }

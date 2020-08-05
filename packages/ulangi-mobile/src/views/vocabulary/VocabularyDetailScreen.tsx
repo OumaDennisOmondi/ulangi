@@ -8,14 +8,13 @@
 import { assertExists } from '@ulangi/assert';
 import { Theme } from '@ulangi/ulangi-common/enums';
 import {
-  ObservableDimensions,
   ObservableSetStore,
   ObservableThemeStore,
   ObservableVocabularyDetailScreen,
 } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView } from 'react-native';
 
 import { VocabularyDetailScreenIds } from '../../constants/ids/VocabularyDetailScreenIds';
 import { VocabularyDetailScreenDelegate } from '../../delegates/vocabulary/VocabularyDetailScreenDelegate';
@@ -26,6 +25,7 @@ import { VocabularyDetailSpacedRepetitionInfo } from '../../views/vocabulary/Voc
 import { VocabularyDetailStrokeOrder } from '../../views/vocabulary/VocabularyDetailStrokeOrder';
 import { VocabularyDetailTitle } from '../../views/vocabulary/VocabularyDetailTitle';
 import { VocabularyDetailWritingInfo } from '../../views/vocabulary/VocabularyDetailWritingInfo';
+import { Screen } from '../common/Screen';
 import {
   VocabularyDetailScreenStyles,
   darkStyles,
@@ -35,7 +35,6 @@ import {
 export interface VocabularyDetailScreenProps {
   setStore: ObservableSetStore;
   themeStore: ObservableThemeStore;
-  observableDimensions: ObservableDimensions;
   observableScreen: ObservableVocabularyDetailScreen;
   screenDelegate: VocabularyDetailScreenDelegate;
 }
@@ -56,9 +55,11 @@ export class VocabularyDetailScreen extends React.Component<
       'currentSet should not be undefined or null',
     );
     return (
-      <View
+      <Screen
+        testID={VocabularyDetailScreenIds.SCREEN}
         style={this.styles.screen}
-        testID={VocabularyDetailScreenIds.SCREEN}>
+        useSafeAreaView={true}
+        observableScreen={this.props.observableScreen}>
         <ScrollView style={this.styles.container}>
           <VocabularyDetailTitle
             theme={this.props.themeStore.theme}
@@ -79,7 +80,7 @@ export class VocabularyDetailScreen extends React.Component<
           {currentSet.learningLanguageCode === 'zh' ? (
             <VocabularyDetailStrokeOrder
               theme={this.props.themeStore.theme}
-              observableDimensions={this.props.observableDimensions}
+              observableScreen={this.props.observableScreen}
               vocabularyTerm={
                 this.props.observableScreen.vocabulary.vocabularyTerm
               }
@@ -124,7 +125,7 @@ export class VocabularyDetailScreen extends React.Component<
             )}
           />
         </ScrollView>
-      </View>
+      </Screen>
     );
   }
 }

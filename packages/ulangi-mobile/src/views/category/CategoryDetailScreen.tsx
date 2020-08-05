@@ -8,15 +8,15 @@
 import { Theme } from '@ulangi/ulangi-common/enums';
 import {
   ObservableCategoryDetailScreen,
-  ObservableDimensions,
   ObservableThemeStore,
 } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { SafeAreaView, View } from 'react-native';
+import { View } from 'react-native';
 
 import { CategoryDetailScreenIds } from '../../constants/ids/CategoryDetailScreenIds';
 import { CategoryDetailScreenDelegate } from '../../delegates/category/CategoryDetailScreenDelegate';
+import { Screen } from '../common/Screen';
 import { NoVocabulary } from '../vocabulary/NoVocabulary';
 import { VocabularyBulkActionBar } from '../vocabulary/VocabularyBulkActionBar';
 import { VocabularyList } from '../vocabulary/VocabularyList';
@@ -30,7 +30,6 @@ import {
 
 export interface CategoryDetailScreenProps {
   themeStore: ObservableThemeStore;
-  observableDimensions: ObservableDimensions;
   observableScreen: ObservableCategoryDetailScreen;
   screenDelegate: CategoryDetailScreenDelegate;
 }
@@ -47,9 +46,11 @@ export class CategoryDetailScreen extends React.Component<
 
   public render(): React.ReactElement<any> {
     return (
-      <SafeAreaView
+      <Screen
         style={this.styles.screen}
-        testID={CategoryDetailScreenIds.SCREEN}>
+        testID={CategoryDetailScreenIds.SCREEN}
+        useSafeAreaView={true}
+        observableScreen={this.props.observableScreen}>
         <CategoryDetailHeader
           theme={this.props.themeStore.theme}
           category={this.props.observableScreen.category}
@@ -65,7 +66,7 @@ export class CategoryDetailScreen extends React.Component<
         {this.renderVocabularyList()}
         {this.renderBulkActionBar()}
         {this.renderCategoryFloatingButton()}
-      </SafeAreaView>
+      </Screen>
     );
   }
 
@@ -101,7 +102,7 @@ export class CategoryDetailScreen extends React.Component<
     ) {
       return (
         <VocabularyBulkActionBar
-          observableDimensions={this.props.observableDimensions}
+          screenLayout={this.props.observableScreen.screenLayout}
           vocabularyListState={this.props.observableScreen.vocabularyListState}
           showVocabularyBulkActionMenu={
             this.props.screenDelegate.showVocabularyBulkActionMenu

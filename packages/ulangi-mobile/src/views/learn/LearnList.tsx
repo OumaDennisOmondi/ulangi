@@ -7,7 +7,7 @@
 
 import { Theme } from '@ulangi/ulangi-common/enums';
 import { FeatureSettings } from '@ulangi/ulangi-common/interfaces';
-import { ObservableDimensions } from '@ulangi/ulangi-observable';
+import { ObservableScreenLayout } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
 import { ScrollView, TouchableOpacity } from 'react-native';
@@ -23,7 +23,7 @@ import { LearnListStyles, darkStyles, lightStyles } from './LearnList.style';
 
 export interface LearnListProps {
   theme: Theme;
-  observableDimensions: ObservableDimensions;
+  screenLayout: ObservableScreenLayout;
   featureSettings: FeatureSettings;
   navigateToSpacedRepetitionScreen: () => void;
   navigateToWritingScreen: () => void;
@@ -51,7 +51,7 @@ export class LearnList extends React.Component<LearnListProps> {
         contentContainerStyle={[
           this.styles.scroll_view_container,
           {
-            paddingHorizontal: this.props.observableDimensions.isPortrait
+            paddingHorizontal: this.props.screenLayout.isPortrait
               ? ls(16)
               : xls(16),
           },

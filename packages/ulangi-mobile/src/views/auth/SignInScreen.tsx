@@ -16,6 +16,7 @@ import { SignInScreenDelegate } from '../../delegates/auth/SignInScreenDelegate'
 import { ss } from '../../utils/responsive';
 import { DefaultText } from '../common/DefaultText';
 import { DismissKeyboardView } from '../common/DismissKeyboardView';
+import { Screen } from '../common/Screen';
 import { SmartScrollView } from '../common/SmartScrollView';
 import { Logo } from './Logo';
 import { SignInForm } from './SignInForm';
@@ -30,46 +31,50 @@ export interface SignInScreenProps {
 export class SignInScreen extends React.Component<SignInScreenProps> {
   public render(): React.ReactElement<any> {
     return (
-      <DismissKeyboardView
+      <Screen
         style={styles.screen}
-        testID={SignInScreenIds.SCREEN}>
-        <View style={styles.container}>
-          <View style={styles.logo_container}>
-            <Logo />
+        testID={SignInScreenIds.SCREEN}
+        useSafeAreaView={true}
+        observableScreen={this.props.observableScreen}>
+        <DismissKeyboardView>
+          <View style={styles.container}>
+            <View style={styles.logo_container}>
+              <Logo />
+            </View>
+            <SmartScrollView
+              style={styles.form_container}
+              keyboardAware={true}
+              keyboardShouldPersistTaps="handled">
+              <SignInForm
+                email={this.props.observableScreen.email}
+                password={this.props.observableScreen.password}
+                shouldFocusPassword={
+                  this.props.observableScreen.shouldFocusPassword
+                }
+                submit={this.props.screenDelegate.signIn}
+                navigateToSignUpScreen={
+                  this.props.screenDelegate.navigateToSignUpScreen
+                }
+                navigateToForgotPasswordScreen={
+                  this.props.screenDelegate.navigateToForgotPasswordScreen
+                }
+              />
+            </SmartScrollView>
+            <View style={styles.sign_in_as_guest_container}>
+              <SubmitButton
+                testID={SignInScreenIds.GUEST_SIGN_IN_BTN}
+                buttonText="Sign in as Guest"
+                style={styles.sign_in_as_guest_btn}
+                textStyle={styles.sign_in_as_guest_btn_text}
+                onSubmit={this.props.screenDelegate.signInAsGuest}
+              />
+              <DefaultText style={styles.sign_in_as_guest_note}>
+                You can set up account later.
+              </DefaultText>
+            </View>
           </View>
-          <SmartScrollView
-            style={styles.form_container}
-            keyboardAware={true}
-            keyboardShouldPersistTaps="handled">
-            <SignInForm
-              email={this.props.observableScreen.email}
-              password={this.props.observableScreen.password}
-              shouldFocusPassword={
-                this.props.observableScreen.shouldFocusPassword
-              }
-              submit={this.props.screenDelegate.signIn}
-              navigateToSignUpScreen={
-                this.props.screenDelegate.navigateToSignUpScreen
-              }
-              navigateToForgotPasswordScreen={
-                this.props.screenDelegate.navigateToForgotPasswordScreen
-              }
-            />
-          </SmartScrollView>
-          <View style={styles.sign_in_as_guest_container}>
-            <SubmitButton
-              testID={SignInScreenIds.GUEST_SIGN_IN_BTN}
-              buttonText="Sign in as Guest"
-              style={styles.sign_in_as_guest_btn}
-              textStyle={styles.sign_in_as_guest_btn_text}
-              onSubmit={this.props.screenDelegate.signInAsGuest}
-            />
-            <DefaultText style={styles.sign_in_as_guest_note}>
-              You can set up account later.
-            </DefaultText>
-          </View>
-        </View>
-      </DismissKeyboardView>
+        </DismissKeyboardView>
+      </Screen>
     );
   }
 }

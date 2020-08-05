@@ -12,11 +12,12 @@ import {
 } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { SafeAreaView, View } from 'react-native';
+import { View } from 'react-native';
 
 import { ReflexScreenIds } from '../../constants/ids/ReflexScreenIds';
 import { ReflexScreenDelegate } from '../../delegates/reflex/ReflexScreenDelegate';
 import { SelectedCategories } from '../../views/category/SelectedCategories';
+import { Screen } from '../common/Screen';
 import { ReflexAnswerButtons } from './ReflexAnswerButtons';
 import { ReflexGameStats } from './ReflexGameStats';
 import { ReflexQuestionBox } from './ReflexQuestionBox';
@@ -45,7 +46,11 @@ export class ReflexScreen extends React.Component<ReflexScreenProps> {
 
   public render(): React.ReactElement<any> {
     return (
-      <SafeAreaView style={this.styles.screen} testID={ReflexScreenIds.SCREEN}>
+      <Screen
+        useSafeAreaView={true}
+        style={this.styles.screen}
+        testID={ReflexScreenIds.SCREEN}
+        observableScreen={this.props.observableScreen}>
         <View style={this.styles.container}>
           <ReflexTopBar
             onIconPressed={this.props.screenDelegate.handleIconPressed}
@@ -81,7 +86,7 @@ export class ReflexScreen extends React.Component<ReflexScreenProps> {
             onAnswerPressed={this.props.screenDelegate.handleSelectAnswer}
           />
         </View>
-      </SafeAreaView>
+      </Screen>
     );
   }
 }

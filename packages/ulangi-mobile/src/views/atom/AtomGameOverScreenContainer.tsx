@@ -6,6 +6,8 @@
  */
 
 import { Options } from '@ulangi/react-native-navigation';
+import { ScreenName } from '@ulangi/ulangi-common/enums';
+import { ObservableScreen } from '@ulangi/ulangi-observable';
 import * as _ from 'lodash';
 import { observer } from 'mobx-react';
 import * as React from 'react';
@@ -33,6 +35,12 @@ export class AtomGameOverScreenContainer extends Container<
   }
 
   protected observableLightBox = this.props.observableLightBox;
+
+  protected observableScreen = new ObservableScreen(
+    this.props.componentId,
+    ScreenName.ATOM_GAME_OVER_SCREEN,
+    null,
+  );
 
   private screenFactory = new ScreenFactory(
     this.props,
@@ -64,7 +72,7 @@ export class AtomGameOverScreenContainer extends Container<
     return (
       <AtomGameOverScreen
         observableLightBox={this.props.observableLightBox}
-        observableDimensions={this.props.observableDimensions}
+        observableScreen={this.observableScreen}
         title={this.props.passedProps.title}
         score={this.props.passedProps.score}
         correctCount={this.props.passedProps.correctCount}

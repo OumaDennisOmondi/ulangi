@@ -6,8 +6,8 @@
  */
 
 import {
-  ObservableDimensions,
   ObservableLightBox,
+  ObservableScreen,
 } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
@@ -18,12 +18,13 @@ import { AtomStyle } from '../../styles/AtomStyle';
 import { ls, ss } from '../../utils/responsive';
 import { DefaultButton } from '../common/DefaultButton';
 import { DefaultText } from '../common/DefaultText';
+import { Screen } from '../common/Screen';
 import { LightBoxAnimatableView } from '../light-box/LightBoxAnimatableView';
 import { LightBoxTouchableBackground } from '../light-box/LightBoxTouchableBackground';
 
 export interface AtomGameOverScreenProps {
   observableLightBox: ObservableLightBox;
-  observableDimensions: ObservableDimensions;
+  observableScreen: ObservableScreen;
   title: string;
   score: number;
   correctCount: number;
@@ -37,58 +38,67 @@ export class AtomGameOverScreen extends React.Component<
 > {
   public render(): React.ReactElement<any> {
     return (
-      <LightBoxTouchableBackground
-        testID={AtomGameOverScreenIds.SCREEN}
-        observableLightBox={this.props.observableLightBox}
-        observableDimensions={this.props.observableDimensions}
-        style={styles.light_box_container}
-        enabled={true}
-        onPress={(): void => this.props.quit()}
-        activeOpacity={0.2}>
-        <LightBoxAnimatableView
-          observableLightBox={this.props.observableLightBox}>
-          <View style={styles.inner_container}>
-            <View style={styles.title_container}>
-              <DefaultText style={styles.title_text}>
-                {this.props.title}
-              </DefaultText>
-            </View>
-            <View style={styles.content_container}>
-              <View style={styles.result_container}>
-                <View style={styles.score_container}>
-                  <DefaultText style={styles.score_text}>SCORE</DefaultText>
-                  <DefaultText style={styles.score_number}>
-                    {this.props.score}
-                  </DefaultText>
+      <Screen
+        useSafeAreaView={false}
+        observableScreen={this.props.observableScreen}
+        style={styles.screen}>
+        <LightBoxTouchableBackground
+          testID={AtomGameOverScreenIds.SCREEN}
+          observableLightBox={this.props.observableLightBox}
+          observableScreen={this.props.observableScreen}
+          style={styles.light_box_container}
+          enabled={true}
+          onPress={(): void => this.props.quit()}
+          activeOpacity={0.2}>
+          <LightBoxAnimatableView
+            observableLightBox={this.props.observableLightBox}>
+            <View style={styles.inner_container}>
+              <View style={styles.title_container}>
+                <DefaultText style={styles.title_text}>
+                  {this.props.title}
+                </DefaultText>
+              </View>
+              <View style={styles.content_container}>
+                <View style={styles.result_container}>
+                  <View style={styles.score_container}>
+                    <DefaultText style={styles.score_text}>SCORE</DefaultText>
+                    <DefaultText style={styles.score_number}>
+                      {this.props.score}
+                    </DefaultText>
+                  </View>
+                  <View style={styles.score_container}>
+                    <DefaultText style={styles.score_text}>CORRECT</DefaultText>
+                    <DefaultText style={styles.score_number}>
+                      {this.props.correctCount}
+                    </DefaultText>
+                  </View>
                 </View>
-                <View style={styles.score_container}>
-                  <DefaultText style={styles.score_text}>CORRECT</DefaultText>
-                  <DefaultText style={styles.score_number}>
-                    {this.props.correctCount}
-                  </DefaultText>
+                <View style={styles.button_container}>
+                  <DefaultButton
+                    text="Quit"
+                    styles={AtomStyle.getLightBoxSecondaryButtonStyles()}
+                    onPress={this.props.quit}
+                  />
+                  <DefaultButton
+                    text="Restart"
+                    styles={AtomStyle.getLightBoxPrimaryButtonStyles()}
+                    onPress={this.props.restart}
+                  />
                 </View>
               </View>
-              <View style={styles.button_container}>
-                <DefaultButton
-                  text="Quit"
-                  styles={AtomStyle.getLightBoxSecondaryButtonStyles()}
-                  onPress={this.props.quit}
-                />
-                <DefaultButton
-                  text="Restart"
-                  styles={AtomStyle.getLightBoxPrimaryButtonStyles()}
-                  onPress={this.props.restart}
-                />
-              </View>
             </View>
-          </View>
-        </LightBoxAnimatableView>
-      </LightBoxTouchableBackground>
+          </LightBoxAnimatableView>
+        </LightBoxTouchableBackground>
+      </Screen>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+  },
+
   light_box_container: {
     justifyContent: 'center',
   },

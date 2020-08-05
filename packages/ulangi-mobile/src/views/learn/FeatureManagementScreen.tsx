@@ -12,6 +12,7 @@ import { FeatureManagementScreenIds } from '../../constants/ids/FeatureManagemen
 import { FullRoundedButtonStyle } from '../../styles/FullRoundedButtonStyle';
 import { DefaultButton } from '../common/DefaultButton';
 import { DefaultText } from '../common/DefaultText';
+import { Screen } from '../common/Screen';
 import { SectionGroup } from '../section/SectionGroup';
 import { SectionRow } from '../section/SectionRow';
 import {
@@ -39,12 +40,16 @@ export class FeatureManagementScreen extends React.Component<
 
   public render(): React.ReactElement<any> {
     return (
-      <ScrollView
+      <Screen
         style={this.styles.screen}
-        testID={FeatureManagementScreenIds.SCREEN}>
-        {this.renderMessage()}
-        {this.renderSections()}
-      </ScrollView>
+        testID={FeatureManagementScreenIds.SCREEN}
+        useSafeAreaView={true}
+        observableScreen={this.props.observableScreen}>
+        <ScrollView>
+          {this.renderMessage()}
+          {this.renderSections()}
+        </ScrollView>
+      </Screen>
     );
   }
 

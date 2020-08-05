@@ -7,8 +7,8 @@
 
 import { ActivityState, Theme } from '@ulangi/ulangi-common/enums';
 import {
-  ObservableDimensions,
   ObservablePixabayImage,
+  ObservableScreenLayout,
 } from '@ulangi/ulangi-observable';
 import { IObservableArray, IObservableValue } from 'mobx';
 import { observer } from 'mobx-react';
@@ -29,7 +29,7 @@ import { SelectableImage } from './SelectableImage';
 
 export interface ImageListProps {
   theme: Theme;
-  observableDimensions: ObservableDimensions;
+  screenLayout: ObservableScreenLayout;
   images: null | IObservableArray<ObservablePixabayImage>;
   isRefreshing: IObservableValue<boolean>;
   searchState: IObservableValue<ActivityState>;
@@ -55,7 +55,7 @@ export class ImageList extends React.Component<ImageListProps> {
   }
 
   public render(): React.ReactElement<any> {
-    const windowWidth = this.props.observableDimensions.windowWidth;
+    const windowWidth = this.props.screenLayout.width;
     return (
       <FlatList
         style={this.styles.container}

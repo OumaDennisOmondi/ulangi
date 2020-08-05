@@ -13,6 +13,7 @@ import {
   ObservableAtomGameStats,
   ObservableAtomPlayScreen,
   ObservableOrigin,
+  ObservableScreenLayout,
 } from '@ulangi/ulangi-observable';
 import * as _ from 'lodash';
 import { observer } from 'mobx-react';
@@ -58,13 +59,15 @@ export class AtomPlayScreenContainer extends Container<
     ),
   );
 
+  private screenLayout = new ObservableScreenLayout(0, 0);
+
   protected observableScreen = new ObservableAtomPlayScreen(
     new ObservableAtomGameState(false, false),
     new ObservableAtomGameStats(10, 0, 0),
     this.props.passedProps.noMoreVocabulary,
     this.questionIterator.next(),
     new ObservableOrigin(
-      this.props.observableDimensions,
+      this.screenLayout,
       config.atom.bottomOffset,
       config.atom.outerShellDiameter,
       config.atom.particleSize,
@@ -74,6 +77,7 @@ export class AtomPlayScreenContainer extends Container<
     [],
     this.props.componentId,
     ScreenName.ATOM_PLAY_SCREEN,
+    this.screenLayout,
   );
 
   private screenDelegate = this.atomPlayScreenFactory.createScreenDelegate(
@@ -99,7 +103,6 @@ export class AtomPlayScreenContainer extends Container<
     return (
       <AtomPlayScreen
         observableScreen={this.observableScreen}
-        observableDimensions={this.props.observableDimensions}
         screenDelegate={this.screenDelegate}
       />
     );

@@ -16,6 +16,7 @@ import { StyleSheet, View } from 'react-native';
 import { config } from '../../constants/config';
 import { ChangePasswordScreenIds } from '../../constants/ids/ChangePasswordScreenIds';
 import { DefaultText } from '../common/DefaultText';
+import { Screen } from '../common/Screen';
 import { ChangePasswordForm } from './ChangePasswordForm';
 
 export interface ChangePasswordScreenProps {
@@ -51,13 +52,17 @@ export class ChangePasswordScreen extends React.Component<
 
   public render(): React.ReactElement<any> {
     return (
-      <View testID={ChangePasswordScreenIds.SCREEN} style={styles.screen}>
+      <Screen
+        testID={ChangePasswordScreenIds.SCREEN}
+        style={styles.screen}
+        observableScreen={this.props.observableScreen}
+        useSafeAreaView={true}>
         {this.renderGuestNote()}
         <ChangePasswordForm
           theme={this.props.themeStore.theme}
           observableScreen={this.props.observableScreen}
         />
-      </View>
+      </Screen>
     );
   }
 }

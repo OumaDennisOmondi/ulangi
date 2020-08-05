@@ -5,16 +5,14 @@
  * See LICENSE or go to https://www.gnu.org/licenses/gpl-3.0.txt
  */
 
-import {
-  ObservableAtomTutorialScreen,
-  ObservableDimensions,
-} from '@ulangi/ulangi-observable';
+import { ObservableAtomTutorialScreen } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { AtomTutorialScreenIds } from '../../constants/ids/AtomTutorialScreenIds';
 import { AtomTutorialScreenDelegate } from '../../delegates/atom/AtomTutorialScreenDelegate';
+import { Screen } from '../common/Screen';
 import { AtomArcs } from './AtomArcs';
 import { AtomOrigin } from './AtomOrigin';
 import { AtomParticles } from './AtomParticles';
@@ -23,7 +21,6 @@ import { AtomTopBar } from './AtomTopBar';
 import { AtomTutorialContent } from './AtomTutorialContent';
 
 export interface AtomTutorialScreenProps {
-  observableDimensions: ObservableDimensions;
   observableScreen: ObservableAtomTutorialScreen;
   screenDelegate: AtomTutorialScreenDelegate;
 }
@@ -34,21 +31,25 @@ export class AtomTutorialScreen extends React.Component<
 > {
   public render(): React.ReactElement<any> {
     return (
-      <SafeAreaView style={styles.screen} testID={AtomTutorialScreenIds.SCREEN}>
+      <Screen
+        style={styles.screen}
+        testID={AtomTutorialScreenIds.SCREEN}
+        observableScreen={this.props.observableScreen}
+        useSafeAreaView={true}>
         <View style={styles.container}>
           {this.props.observableScreen.shells.map(
             (shell): React.ReactElement<any> => {
               return (
                 <AtomShell
                   key={shell.shellType}
-                  observableDimensions={this.props.observableDimensions}
+                  screenLayout={this.props.observableScreen.screenLayout}
                   shell={shell}
                 />
               );
             },
           )}
           <AtomArcs
-            observableDimensions={this.props.observableDimensions}
+            screenLayout={this.props.observableScreen.screenLayout}
             arcs={this.props.observableScreen.arcs}
           />
           <AtomParticles
@@ -77,7 +78,7 @@ export class AtomTutorialScreen extends React.Component<
             back={this.props.screenDelegate.back}
           />
         </View>
-      </SafeAreaView>
+      </Screen>
     );
   }
 }

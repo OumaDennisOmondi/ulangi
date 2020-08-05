@@ -12,6 +12,7 @@ import { config } from '../../constants/config';
 import { ss } from '../../utils/responsive';
 
 export interface SuggestionsPickerScreenStyles {
+  screen: ViewStyle;
   light_box_container: ViewStyle;
   inner_container: ViewStyle;
   picker_header: ViewStyle;
@@ -23,6 +24,10 @@ export interface SuggestionsPickerScreenStyles {
 }
 
 export const baseStyles: SuggestionsPickerScreenStyles = {
+  screen: {
+    flex: 1,
+  },
+
   light_box_container: {
     justifyContent: 'flex-end',
   },

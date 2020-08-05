@@ -6,22 +6,21 @@
  */
 
 import {
-  ObservableDimensions,
   ObservableImageSelectorScreen,
   ObservableThemeStore,
 } from '@ulangi/ulangi-observable';
 import { observer } from 'mobx-react';
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import { ImageSelectorScreenIds } from '../../constants/ids/ImageSelectorScreenIds';
 import { ImageSelectorScreenDelegate } from '../../delegates/image/ImageSelectorScreenDelegate';
+import { Screen } from '../common/Screen';
 import { ImageList } from './ImageList';
 import { SearchInput } from './SearchInput';
 
 export interface ImageSelectorScreenProps {
   themeStore: ObservableThemeStore;
-  observableDimensions: ObservableDimensions;
   observableScreen: ObservableImageSelectorScreen;
   screenDelegate: ImageSelectorScreenDelegate;
 }
@@ -32,7 +31,11 @@ export class ImageSelectorScreen extends React.Component<
 > {
   public render(): React.ReactElement<any> {
     return (
-      <View style={styles.screen} testID={ImageSelectorScreenIds.SCREEN}>
+      <Screen
+        style={styles.screen}
+        testID={ImageSelectorScreenIds.SCREEN}
+        useSafeAreaView={true}
+        observableScreen={this.props.observableScreen}>
         <SearchInput
           theme={this.props.themeStore.theme}
           input={this.props.observableScreen.input}
@@ -41,7 +44,7 @@ export class ImageSelectorScreen extends React.Component<
         />
         <ImageList
           theme={this.props.themeStore.theme}
-          observableDimensions={this.props.observableDimensions}
+          screenLayout={this.props.observableScreen.screenLayout}
           images={this.props.observableScreen.images}
           searchState={this.props.observableScreen.searchState}
           isRefreshing={this.props.observableScreen.isRefreshing}
@@ -50,7 +53,7 @@ export class ImageSelectorScreen extends React.Component<
           refresh={this.props.screenDelegate.resetSearch}
           goToPixabay={this.props.screenDelegate.goToPixabay}
         />
-      </View>
+      </Screen>
     );
   }
 }
